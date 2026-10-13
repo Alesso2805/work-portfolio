@@ -26,7 +26,6 @@ export function LanguageSwitch({
             href={localePath(code, subpath)}
             lang={code}
             hrefLang={code}
-            aria-label={localeNames[code]}
             aria-current={current ? 'page' : undefined}
             className={cn(
               'inline-flex min-h-10 min-w-11 items-center justify-center px-2.5 no-underline',
@@ -34,6 +33,8 @@ export function LanguageSwitch({
             )}
           >
             {code.toUpperCase()}
+            {/* Name reads "EN English": starts with the visible label (WCAG 2.5.3). */}
+            <span className="sr-only"> {localeNames[code]}</span>
           </a>
         );
       })}

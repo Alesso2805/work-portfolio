@@ -6,7 +6,7 @@ import { caseStudies, getCaseStudy } from '@/content/case-studies';
 import { projects } from '@/content/projects';
 import { getDictionary } from '@/i18n';
 import { isLocale, locales } from '@/i18n/config';
-import { alternatesFor } from '@/lib/metadata';
+import { pageMetadata } from '@/lib/metadata';
 
 export const dynamicParams = false;
 
@@ -28,10 +28,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const resolved = await resolve(params);
   if (!resolved) return {};
   const { locale, study, project } = resolved;
-  return {
+  return pageMetadata({
+    locale,
+    subpath: `/projects/${study.slug}`,
     title: `${project.name} — ${getDictionary(locale).caseStudy.titleSuffix}`,
-    alternates: alternatesFor(locale, `/projects/${study.slug}`),
-  };
+    description: study.copy[locale].lead,
+    type: 'article',
+  });
 }
 
 export default async function CaseStudyPage({ params }: Props) {
