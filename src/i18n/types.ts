@@ -15,6 +15,29 @@ export interface Dictionary {
     toDark: string;
     toLight: string;
   };
+  hero: {
+    kicker: string;
+    sub: string;
+    ctaWork: string;
+  };
+  stats: {
+    at: string;
+    coverage: string;
+    endpoints: string;
+    faster: string;
+  };
+  work: {
+    title: string;
+  };
+  experience: {
+    title: string;
+    items: ReadonlyArray<{ dates: string; role: string; summary: string }>;
+    publicationLabel: string;
+    languages: string;
+  };
+  contact: {
+    kicker: string;
+  };
   footer: {
     copyright: string;
     location: string;

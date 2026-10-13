@@ -1,5 +1,9 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import { Contact } from '@/components/home/contact';
+import { Experience } from '@/components/home/experience';
+import { Hero } from '@/components/home/hero';
+import { Work } from '@/components/home/work';
 import { SiteHeader } from '@/components/site-header';
 import { getDictionary } from '@/i18n';
 import { isLocale } from '@/i18n/config';
@@ -21,7 +25,12 @@ export default async function HomePage({ params }: Props) {
   return (
     <>
       <SiteHeader locale={locale} dict={dict} />
-      <main id="main">{/* Phase 3: hero, experience, publication, contact. */}</main>
+      <main id="main">
+        <Hero locale={locale} dict={dict} />
+        <Work dict={dict} />
+        <Experience dict={dict} />
+        <Contact dict={dict} />
+      </main>
     </>
   );
 }
