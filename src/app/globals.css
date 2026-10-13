@@ -115,6 +115,13 @@
       color 0.2s;
   }
 
+  /* In-page links (Work, Experience, Contact, See work ↓) glide instead of jumping. */
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
   a {
     color: var(--ink);
   }
