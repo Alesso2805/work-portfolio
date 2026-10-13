@@ -126,6 +126,14 @@
     color: var(--ink);
   }
 
+  /* Hover color changes fade instead of snapping (zeroed by the reduced-motion rule below). */
+  a,
+  button {
+    transition-property: color, background-color, border-color, text-decoration-color;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-out;
+  }
+
   a:hover {
     color: var(--hover);
   }
