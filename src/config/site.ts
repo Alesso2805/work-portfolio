@@ -1,8 +1,11 @@
 import type { Locale } from '@/i18n/config';
 
 export const site = {
-  /** Public origin used for canonical, hreflang and sitemap URLs. Set NEXT_PUBLIC_SITE_URL in Netlify. */
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000',
+  /**
+   * Public origin for canonical, hreflang, Open Graph and sitemap URLs.
+   * NEXT_PUBLIC_SITE_URL wins (custom domain); on Netlify, `URL` is set automatically at build time.
+   */
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? process.env.URL ?? 'http://localhost:3000',
   name: 'Alessandro David',
   fullName: 'Alessandro Alonso David Polanco',
   email: 'alessandrodp2222@gmail.com',
