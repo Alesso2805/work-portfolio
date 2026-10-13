@@ -1,0 +1,137 @@
+@import "tailwindcss";
+
+/*
+ * Design tokens. These are the only colors in the codebase: components use the
+ * Tailwind utilities mapped below (bg-bg, text-ink, border-rule, …), never hex.
+ */
+:root,
+[data-theme="light"] {
+  --bg: #ffffff;
+  --ink: #0a0a0a; /* text and lines */
+  --muted: #5a5f69; /* mono labels, metadata */
+  --soft: #3b3f47; /* secondary text */
+  --rule: #0a0a0a; /* borders */
+  --accent: #ff4f00; /* orange blocks and tags */
+  --hover: #b83800; /* link hover */
+  --on-accent: #0a0a0a; /* text on --accent, identical in both themes */
+  color-scheme: light;
+}
+
+[data-theme="dark"] {
+  --bg: #0c0c0d;
+  --ink: #f2f2ef;
+  --muted: #9da0a6;
+  --soft: #c7c9cd;
+  --rule: #f2f2ef;
+  --accent: #ff5a1f;
+  --hover: #ff8a5c;
+  color-scheme: dark;
+}
+
+/* Without JS the theme script never sets data-theme, so fall back to the system preference. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --bg: #0c0c0d;
+    --ink: #f2f2ef;
+    --muted: #9da0a6;
+    --soft: #c7c9cd;
+    --rule: #f2f2ef;
+    --accent: #ff5a1f;
+    --hover: #ff8a5c;
+    color-scheme: dark;
+  }
+}
+
+@theme inline {
+  /* Only the design tokens exist as colors; Tailwind's default palette is removed. */
+  --color-*: initial;
+  --color-bg: var(--bg);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-soft: var(--soft);
+  --color-rule: var(--rule);
+  --color-accent: var(--accent);
+  --color-hover: var(--hover);
+  --color-on-accent: var(--on-accent);
+  --color-transparent: transparent;
+  --color-current: currentColor;
+
+  /* Swiss design: no rounded corners, no shadows. */
+  --radius-*: initial;
+  --shadow-*: initial;
+  --inset-shadow-*: initial;
+  --drop-shadow-*: initial;
+
+  --font-sans: var(--font-archivo), system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
+
+  --container-site: 1280px;
+
+  /* H1 (name) */
+  --text-display: clamp(64px, 10.5vw, 156px);
+  --text-display--line-height: 0.86;
+  --text-display--letter-spacing: -0.05em;
+  --text-display--font-weight: 900;
+  /* Section H2 */
+  --text-section: clamp(40px, 5vw, 72px);
+  --text-section--line-height: 1;
+  --text-section--letter-spacing: -0.04em;
+  --text-section--font-weight: 900;
+  /* Project name */
+  --text-project: clamp(30px, 3.4vw, 44px);
+  --text-project--line-height: 1;
+  --text-project--letter-spacing: -0.03em;
+  --text-project--font-weight: 800;
+  /* Body */
+  --text-body: 17px;
+  --text-body--line-height: 1.55;
+}
+
+@utility px-gutter {
+  padding-inline: clamp(16px, 4vw, 48px);
+}
+
+@layer base {
+  body {
+    margin: 0;
+    background-color: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-size: 17px;
+    line-height: 1.55;
+    min-height: 100vh;
+    transition:
+      background-color 0.2s,
+      color 0.2s;
+  }
+
+  a {
+    color: var(--ink);
+  }
+
+  a:hover {
+    color: var(--hover);
+  }
+
+  a:focus-visible,
+  button:focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 3px;
+  }
+
+  button {
+    cursor: pointer;
+  }
+
+  /* biome-ignore-start lint/complexity/noImportantStyles: must beat every transition, inline or utility */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      transition-duration: 0s !important;
+      animation-duration: 0s !important;
+      scroll-behavior: auto !important;
+    }
+  }
+  /* biome-ignore-end lint/complexity/noImportantStyles: — */
+}
