@@ -26,6 +26,11 @@ export const es: Dictionary = {
   },
   work: {
     title: '01 — Proyectos',
+    filterLabel: 'Filtrar proyectos por lenguaje',
+    all: 'Todos',
+    thesisTag: 'tesis · 44/44 pruebas',
+    practices: 'Prácticas',
+    toolsFor: 'Herramientas',
   },
   experience: {
     title: '02 — Experiencia',

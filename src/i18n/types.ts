@@ -28,6 +28,11 @@ export interface Dictionary {
   };
   work: {
     title: string;
+    filterLabel: string;
+    all: string;
+    thesisTag: string;
+    practices: string;
+    toolsFor: string;
   };
   experience: {
     title: string;

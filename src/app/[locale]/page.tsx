@@ -27,7 +27,7 @@ export default async function HomePage({ params }: Props) {
       <SiteHeader locale={locale} dict={dict} />
       <main id="main">
         <Hero locale={locale} dict={dict} />
-        <Work dict={dict} />
+        <Work locale={locale} dict={dict} />
         <Experience dict={dict} />
         <Contact dict={dict} />
       </main>
