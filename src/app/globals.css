@@ -82,6 +82,11 @@
   --text-section--line-height: 1;
   --text-section--letter-spacing: -0.04em;
   --text-section--font-weight: 900;
+  /* Case study section H2 */
+  --text-subsection: clamp(32px, 3.6vw, 48px);
+  --text-subsection--line-height: 1;
+  --text-subsection--letter-spacing: -0.04em;
+  --text-subsection--font-weight: 900;
   /* Project name */
   --text-project: clamp(30px, 3.4vw, 44px);
   --text-project--line-height: 1;

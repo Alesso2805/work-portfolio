@@ -62,6 +62,20 @@ export const en: Dictionary = {
   contact: {
     kicker: '03 — Contact · contractor, no visa sponsorship required',
   },
+  caseStudy: {
+    titleSuffix: 'Case study',
+    back: '← All work',
+    backAll: '← Back to all work',
+    viewCode: 'View the code ↗',
+    meta: { role: 'Role', context: 'Context', status: 'Status', languages: 'Languages' },
+    headings: {
+      problem: '01 — Problem',
+      how: '02 — How it works',
+      architecture: '03 — Architecture',
+      decisions: '04 — Decisions',
+      results: '05 — Results',
+    },
+  },
   footer: {
     copyright: '© 2026 Alessandro Alonso David Polanco',
     location: 'Lima, Peru',

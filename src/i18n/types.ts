@@ -43,6 +43,20 @@ export interface Dictionary {
   contact: {
     kicker: string;
   };
+  caseStudy: {
+    titleSuffix: string;
+    back: string;
+    backAll: string;
+    viewCode: string;
+    meta: { role: string; context: string; status: string; languages: string };
+    headings: {
+      problem: string;
+      how: string;
+      architecture: string;
+      decisions: string;
+      results: string;
+    };
+  };
   footer: {
     copyright: string;
     location: string;
