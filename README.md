@@ -1,12 +1,25 @@
 # Alessandro David — Portfolio
 
-Personal portfolio of **Alessandro Alonso David Polanco**, Software Engineer (backend-first: Python, FastAPI, SQLAlchemy, SQL Server, Docker; also React / Next.js / Angular).
+[![CI](https://github.com/Alesso2805/work-portfolio/actions/workflows/ci.yml/badge.svg)](https://github.com/Alesso2805/work-portfolio/actions/workflows/ci.yml)
+[![Live site](https://img.shields.io/badge/live-alessandro--david.netlify.app-FF4F00)](https://alessandro-david.netlify.app)
 
-**Live:** https://alessandro-david.netlify.app
+Personal portfolio of **Alessandro Alonso David Polanco**, Software Engineer (backend-first: Python, FastAPI, SQLAlchemy, SQL Server, Docker; also React / Next.js / Angular).
 
 A bilingual (EN / ES) static site with light and dark themes, built from a fixed Swiss-style design. The code is part of the portfolio, so it is meant to be read.
 
-![Open Graph image: "Alessandro David" in black on white next to an orange block](public/og.png)
+| Light | Dark |
+|---|---|
+| ![Home page in light mode: the name "Alessandro David" with an orange stats block](docs/screenshots/home-light.png) | ![Home page in dark mode](docs/screenshots/home-dark.png) |
+
+![GenAIrator case study page](docs/screenshots/case-study-light.png)
+
+## Highlights
+
+- **Lighthouse 95–98 / 100 / 100 / 100** (Performance, Accessibility, Best Practices, SEO) on mobile, measured on the live site
+- **WCAG 2.1 AA:** keyboard-only usable, skip link, real buttons with `aria-pressed`, contrast ≥ 4.5:1 in both themes, `prefers-reduced-motion` respected
+- **Hand-built i18n and theming:** typed EN/ES dictionaries (a missing key is a compile error) and a theme with no flash on load. No libraries for either
+- **Minimal client JavaScript:** only the project filter, the theme toggle and the `/` redirect run in the browser; everything else is prerendered
+- **Tested and checked in CI:** 31 Vitest tests, plus Biome lint, a strict typecheck and a production build on every push
 
 ## Stack
 
@@ -67,7 +80,7 @@ src/
   i18n/                  Dictionary type + en.ts / es.ts
   lib/                   filter logic, metadata, JSON-LD, theme and redirect scripts
 scripts/                 brand asset sources (HTML) and their renderer
-design-reference/        the approved design (source of truth for layout and sizes)
+docs/screenshots/        images used in this README
 ```
 
 ## Editing content
@@ -169,7 +182,7 @@ The sources are `scripts/assets/og.html` and `scripts/assets/icon.html`. After e
 
 ## Design decisions
 
-The design in `design-reference/` is the source of truth. Where the build had to differ, it was agreed first:
+The visual design was approved before any code was written, and the build follows it exactly. Where it had to differ, the change was agreed first:
 
 - **Hero H1** minimum size is **58px** instead of 64px, so "Alessandro" fits a 360px screen without horizontal scroll.
 - **The EN|ES switch** uses links (with `aria-current`) instead of buttons, so it works without JS and is crawlable.
