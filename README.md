@@ -2,6 +2,8 @@
 
 Personal portfolio of **Alessandro Alonso David Polanco**, Software Engineer (backend-first: Python, FastAPI, SQLAlchemy, SQL Server, Docker; also React / Next.js / Angular).
 
+**Live:** https://alessandro-david.netlify.app
+
 A bilingual (EN / ES) static site with light and dark themes, built from a fixed Swiss-style design. The code is part of the portfolio, so it is meant to be read.
 
 ![Open Graph image: "Alessandro David" in black on white next to an orange block](public/og.png)
@@ -135,6 +137,7 @@ The sources are `scripts/assets/og.html` and `scripts/assets/icon.html`. After e
 - **i18n.** `/[locale]` is a root layout, so `<html lang>` is correct in the static HTML. Each page has a canonical URL plus `hreflang` alternates (in the `<head>` and in the sitemap). EN|ES are plain links to the same page in the other language.
 - **Project filter.** `ProjectExplorer` is the only stateful component. The filter is mirrored in `?stack=` (e.g. `/en?stack=python`) so a filtered view can be shared. The HTML is prerendered with every project visible, so the list also works without JS.
 - **Client JavaScript** is limited to the filter, the theme toggle and the `/` redirect. Everything else is a Server Component rendered at build time.
+- **Netlify head comment.** On `*.netlify.app`, Netlify injects an HTML comment into `<head>`. React counts it as a hydration mismatch (error #418), re-renders the whole document on the client and drops the theme. A tiny inline script (`src/lib/head-cleanup.ts`) removes comment and blank nodes from `<head>` before hydration.
 
 ## Quality
 
@@ -144,7 +147,7 @@ The sources are `scripts/assets/og.html` and `scripts/assets/icon.html`. After e
   - The theme toggle's `aria-label` describes its action; decorative SVGs and arrows are `aria-hidden`.
   - Visible focus outline; `prefers-reduced-motion` respected.
   - Every text/background pair in both themes is ≥ 4.5:1; the lowest is `--hover` on white, at 5.83:1.
-- **Lighthouse (mobile, local static build).** Performance 95–97, Accessibility 100, SEO 100 on `/en`, `/es` and both case studies. Best Practices locally only misses HTTPS, which Netlify provides.
+- **Lighthouse (mobile, live site).** On `/en`, `/es` and both case studies: Performance 95–98, Accessibility 100, Best Practices 100, SEO 100.
 - **SEO.** Per-locale title, description, Open Graph and Twitter cards; `sitemap.xml` with language alternates; `robots.txt`; JSON-LD `Person` (with `sameAs` to GitHub and LinkedIn) and `ScholarlyArticle` for the IEEE paper.
 - **Tests.** The suite checks that:
   - EN and ES dictionaries have identical keys;
@@ -160,7 +163,8 @@ The sources are `scripts/assets/og.html` and `scripts/assets/icon.html`. After e
 
 `netlify.toml` builds with `pnpm build` and publishes `out/` on Node 24. It also sets long-term caching for hashed assets in `/_next/static/*` and basic security headers.
 
-- **Connect the repo** in Netlify (Add new site → Import from Git); nothing else is required.
+- **Site:** `alessandro-david` on Netlify, at https://alessandro-david.netlify.app.
+- **Continuous deployment.** Link the GitHub repo once in the Netlify UI (Project configuration → Build & deploy → Continuous deployment → Link repository). After that, every push to `main` deploys. Until then, deploys are manual.
 - **Site URL.** Canonical, `hreflang`, Open Graph and sitemap URLs come from Netlify's built-in `URL` variable. With a custom domain, set `NEXT_PUBLIC_SITE_URL` (e.g. `https://alessandrodavid.dev`) in the site's environment variables.
 
 ## Design decisions
@@ -180,4 +184,5 @@ The design in `design-reference/` is the source of truth. Where the build had to
 - [ ] Confirm the exact **paper title** and its **DOI** (then add the DOI to the `ScholarlyArticle` JSON-LD)
 - [ ] Upload the **CV PDFs** to `public/cv/` and choose `Espana_Remoto` or `Peru_Remoto` for ES
 - [ ] Final **domain**: set `NEXT_PUBLIC_SITE_URL` if it is not the Netlify URL
-- [ ] Run Lighthouse / PageSpeed Insights on the deployed site
+- [ ] Link the GitHub repo in Netlify for continuous deployment (see *Deploy*)
+- [ ] Re-check with PageSpeed Insights (the anonymous API quota was exhausted when the site was first measured)
