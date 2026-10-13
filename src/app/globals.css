@@ -72,8 +72,8 @@
 
   --container-site: 1280px;
 
-  /* H1 (name) */
-  --text-display: clamp(64px, 10.5vw, 156px);
+  /* H1 (name). Minimum lowered from the design's 64px so "Alessandro" fits a 360px screen. */
+  --text-display: clamp(58px, 10.5vw, 156px);
   --text-display--line-height: 0.86;
   --text-display--letter-spacing: -0.05em;
   --text-display--font-weight: 900;
