@@ -127,14 +127,21 @@ The optional fields hide their block while they are empty:
 
 ### CVs
 
-Put the PDFs in `public/cv/`. The file each language downloads is set in `src/config/site.ts`:
+The "CV ↓" button opens a menu with every CV: international remote (EN), Spain remote (ES) and Peru remote (ES). The PDFs live in `public/cv/` and the list is `cvs` in `src/config/site.ts`:
 
 ```ts
-cv: {
-  en: '/cv/CV_Alessandro_David_Polanco_International_Remote.pdf',
-  es: '/cv/CV_Alessandro_David_Polanco_Espana_Remoto.pdf', // or …_Peru_Remoto.pdf
-},
+cvs: [
+  { href: '/cv/CV_Alessandro_David_Polanco_International_Remote.pdf', lang: 'en',
+    label: { en: 'International remote', es: 'Remoto internacional' } },
+  // …
+],
 ```
+
+- **Public copies only.** The PDFs in the repo have no phone number. They are published on the site and kept in Git history, so never commit a private version.
+- **Not indexed.** `netlify.toml` sends `X-Robots-Tag: noindex` for `/cv/*`, so the PDFs download normally but stay out of search results.
+- **Checked by a test.** A test fails if a listed CV file is missing from `public/`.
+
+To replace a CV, export the new PDF without the phone number and overwrite the file with the same name.
 
 ### Contact links and paper
 
@@ -195,7 +202,6 @@ The visual design was approved before any code was written, and the build follow
 - [ ] GenAIrator `repoUrl`; "View the code" points to the GitHub profile until then
 - [ ] Case study: **role**, **problem paragraph** (`problemBody`) and **screenshot / video**
 - [ ] Confirm the exact **paper title** and its **DOI** (then add the DOI to the `ScholarlyArticle` JSON-LD)
-- [ ] Upload the **CV PDFs** to `public/cv/` and choose `Espana_Remoto` or `Peru_Remoto` for ES
 - [ ] Final **domain**: set `NEXT_PUBLIC_SITE_URL` if it is not the Netlify URL
 - [ ] Link the GitHub repo in Netlify for continuous deployment (see *Deploy*)
 - [ ] Re-check with PageSpeed Insights (the anonymous API quota was exhausted when the site was first measured)

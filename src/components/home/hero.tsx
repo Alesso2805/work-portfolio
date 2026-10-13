@@ -1,7 +1,7 @@
 import { ButtonLink } from '@/components/button-link';
-import { site } from '@/config/site';
 import type { Dictionary } from '@/i18n';
 import type { Locale } from '@/i18n/config';
+import { CvMenu } from './cv-menu';
 
 export function Hero({ locale, dict }: { locale: Locale; dict: Dictionary }) {
   return (
@@ -23,9 +23,7 @@ export function Hero({ locale, dict }: { locale: Locale; dict: Dictionary }) {
             <ButtonLink variant="primary" href="#work">
               {dict.hero.ctaWork}
             </ButtonLink>
-            <ButtonLink variant="secondary" href={site.cv[locale]} download>
-              CV ↓
-            </ButtonLink>
+            <CvMenu locale={locale} />
           </div>
         </div>
       </div>

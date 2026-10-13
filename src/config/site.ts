@@ -17,11 +17,24 @@ export const site = {
       'Web Application for the Automatic Code Generation of Fullstack Projects Using Generative Artificial Intelligence (GPT-5)',
   },
   /**
-   * CV downloaded from each locale. Files live in public/cv/.
-   * Spanish alternative: /cv/CV_Alessandro_David_Polanco_Peru_Remoto.pdf
+   * CVs offered by the "CV ↓" button, in menu order. Files live in public/cv/
+   * (public copies, without the phone number). `lang` is the language of the PDF itself.
    */
-  cv: {
-    en: '/cv/CV_Alessandro_David_Polanco_International_Remote.pdf',
-    es: '/cv/CV_Alessandro_David_Polanco_Espana_Remoto.pdf',
-  } satisfies Record<Locale, string>,
+  cvs: [
+    {
+      href: '/cv/CV_Alessandro_David_Polanco_International_Remote.pdf',
+      lang: 'en',
+      label: { en: 'International remote', es: 'Remoto internacional' },
+    },
+    {
+      href: '/cv/CV_Alessandro_David_Polanco_Espana_Remoto.pdf',
+      lang: 'es',
+      label: { en: 'Spain remote', es: 'Remoto España' },
+    },
+    {
+      href: '/cv/CV_Alessandro_David_Polanco_Peru_Remoto.pdf',
+      lang: 'es',
+      label: { en: 'Peru remote', es: 'Remoto Perú' },
+    },
+  ] satisfies ReadonlyArray<{ href: string; lang: Locale; label: Record<Locale, string> }>,
 } as const;

@@ -12,6 +12,12 @@
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
+# CVs stay downloadable but out of search results.
+[[headers]]
+  for = "/cv/*"
+  [headers.values]
+    X-Robots-Tag = "noindex"
+
 [[headers]]
   for = "/*"
   [headers.values]
