@@ -42,6 +42,11 @@
   }
 }
 
+/* `dark:` follows the data-theme attribute, not the media query. */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+/* `nojs:` applies when the theme script never ran (JS disabled). */
+@custom-variant nojs (&:where(:root:not([data-theme]) *));
+
 @theme inline {
   /* Only the design tokens exist as colors; Tailwind's default palette is removed. */
   --color-*: initial;
