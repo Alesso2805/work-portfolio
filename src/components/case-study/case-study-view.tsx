@@ -7,6 +7,7 @@ import type { Dictionary } from '@/i18n';
 import { type Locale, localePath } from '@/i18n/config';
 
 const sectionClass = 'pt-[clamp(56px,7vw,96px)]';
+const cardClass = 'flex flex-[1_1_260px] flex-col justify-end border-2 border-rule p-8';
 
 export function CaseStudyView({
   study,
@@ -145,21 +146,31 @@ export function CaseStudyView({
             </div>
             <div className="mt-3 font-semibold">{copy.results.metricLabel}</div>
           </div>
-          <div className="flex flex-[1_1_260px] flex-col justify-end border-2 border-rule p-8">
-            <div className="font-black text-[32px] leading-[1.05] tracking-[-0.03em]">
-              {copy.results.thesis}
-            </div>
-            <div className="mt-2 text-soft">{copy.results.thesisSub}</div>
-          </div>
-          <a
-            href={site.paper.url}
-            className="flex flex-[1_1_260px] flex-col justify-end border-2 border-rule p-8 no-underline"
-          >
-            <div className="font-black text-[32px] leading-[1.05] tracking-[-0.03em]">
-              {copy.results.paper} <span aria-hidden="true">↗</span>
-            </div>
-            <div className="mt-2 text-soft">{copy.results.paperSub}</div>
-          </a>
+          {copy.results.cards.map((card) => {
+            const content = (
+              <>
+                <div className="font-black text-[32px] leading-[1.05] tracking-[-0.03em]">
+                  {card.title}
+                  {card.href && (
+                    <>
+                      {' '}
+                      <span aria-hidden="true">↗</span>
+                    </>
+                  )}
+                </div>
+                <div className="mt-2 text-soft">{card.body}</div>
+              </>
+            );
+            return card.href ? (
+              <a key={card.title} href={card.href} className={`${cardClass} no-underline`}>
+                {content}
+              </a>
+            ) : (
+              <div key={card.title} className={cardClass}>
+                {content}
+              </div>
+            );
+          })}
         </div>
         <div className="mt-12 flex flex-wrap gap-2.5">
           <ButtonLink variant="primary" href={project.repoUrl ?? site.github}>

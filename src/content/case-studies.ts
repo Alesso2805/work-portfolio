@@ -1,3 +1,4 @@
+import { site } from '@/config/site';
 import type { Locale } from '@/i18n/config';
 
 /** Text of one case study in one language. `en` and `es` must have the same shape. */
@@ -16,10 +17,8 @@ export interface CaseStudyCopy {
   decisions: ReadonlyArray<{ title: string; body: string }>;
   results: {
     metricLabel: string;
-    thesis: string;
-    thesisSub: string;
-    paper: string;
-    paperSub: string;
+    /** Cards beside the metric. One with `href` is a link and shows ↗. */
+    cards: ReadonlyArray<{ title: string; body: string; href?: string }>;
   };
 }
 
@@ -98,10 +97,17 @@ const genairator: CaseStudy = {
       ],
       results: {
         metricLabel: 'software test cases passed (CP001–CP044)',
-        thesis: 'Thesis defended',
-        thesisSub: 'Final cycle of the Software Engineering degree at UPC',
-        paper: 'Published in IEEE Xplore',
-        paperSub: 'Peer-reviewed conference paper (2026) — read it on IEEE Xplore',
+        cards: [
+          {
+            title: 'Thesis defended',
+            body: 'Final cycle of the Software Engineering degree at UPC',
+          },
+          {
+            title: 'Published in IEEE Xplore',
+            body: 'Peer-reviewed conference paper (2026) — read it on IEEE Xplore',
+            href: site.paper.url,
+          },
+        ],
       },
     },
     es: {
@@ -162,10 +168,17 @@ const genairator: CaseStudy = {
       ],
       results: {
         metricLabel: 'casos de prueba de software aprobados (CP001–CP044)',
-        thesis: 'Tesis sustentada',
-        thesisSub: 'Último ciclo de Ingeniería de Software en la UPC',
-        paper: 'Publicado en IEEE Xplore',
-        paperSub: 'Paper de congreso revisado por pares (2026) — léelo en IEEE Xplore',
+        cards: [
+          {
+            title: 'Tesis sustentada',
+            body: 'Último ciclo de Ingeniería de Software en la UPC',
+          },
+          {
+            title: 'Publicado en IEEE Xplore',
+            body: 'Paper de congreso revisado por pares (2026) — léelo en IEEE Xplore',
+            href: site.paper.url,
+          },
+        ],
       },
     },
   },

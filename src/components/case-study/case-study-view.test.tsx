@@ -41,6 +41,15 @@ describe('CaseStudyView optional blocks', () => {
     expect(screen.getByRole('img', { name: 'Dashboard' })).toBeInTheDocument();
   });
 
+  it('links only the result cards that have an href', () => {
+    renderStudy(base);
+    expect(screen.getByRole('link', { name: /Published in IEEE Xplore/ })).toHaveAttribute(
+      'href',
+      'https://ieeexplore.ieee.org/document/11541607',
+    );
+    expect(screen.queryByRole('link', { name: /Thesis defended/ })).not.toBeInTheDocument();
+  });
+
   it('has a single h1 and section h2s in order', () => {
     renderStudy(base);
     expect(screen.getAllByRole('heading', { level: 1 })).toHaveLength(1);
