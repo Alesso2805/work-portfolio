@@ -56,7 +56,7 @@ export function CaseStudyView({
         <div className="relative mt-12 aspect-video overflow-hidden border-2 border-rule">
           {study.screenshot.kind === 'video' ? (
             <video
-              src={study.screenshot.src}
+              src={study.screenshot.src[locale]}
               aria-label={study.screenshot.alt[locale]}
               className="size-full object-cover"
               controls
@@ -66,7 +66,7 @@ export function CaseStudyView({
             />
           ) : (
             <Image
-              src={study.screenshot.src}
+              src={study.screenshot.src[locale]}
               alt={study.screenshot.alt[locale]}
               fill
               sizes="(max-width: 1280px) 100vw, 1184px"

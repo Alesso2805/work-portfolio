@@ -30,7 +30,8 @@ export interface CaseStudy {
   /** Image or short video for the 16:9 box. Empty → the box is hidden. Files go in public/. */
   screenshot?: {
     kind: 'image' | 'video';
-    src: string;
+    /** One file per locale, so a screen of the product shows the page's language. */
+    src: Record<Locale, string>;
     alt: Record<Locale, string>;
   };
   copy: Record<Locale, CaseStudyCopy>;
@@ -189,7 +190,10 @@ const willay: CaseStudy = {
   metric: '500',
   screenshot: {
     kind: 'image',
-    src: '/case-studies/willay-live-map.png',
+    src: {
+      en: '/case-studies/willay-live-map-en.png',
+      es: '/case-studies/willay-live-map-es.png',
+    },
     alt: {
       en: 'Willay’s live map: risk zones along the Rímac colored by their most urgent incident, and stations with their status',
       es: 'El mapa en vivo de Willay: zonas de riesgo del Rímac coloreadas según su incidente más urgente y estaciones con su estado',

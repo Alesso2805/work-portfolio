@@ -124,7 +124,7 @@ The optional fields hide their block while they are empty:
 | `problemBody` | only the big problem sentence is shown |
 | `screenshot` | the 16:9 media box is hidden |
 
-`screenshot` takes `{ kind: 'image' | 'video', src, alt: { en, es } }`, with the file in `public/` (e.g. `public/case-studies/willay-live-map.png` → `src: '/case-studies/willay-live-map.png'`). The box is 16:9 and crops anything else from the center, so crop the file to 16:9 yourself to choose what stays.
+`screenshot` takes `{ kind: 'image' | 'video', src: { en, es }, alt: { en, es } }`, with the files in `public/` (e.g. `public/case-studies/willay-live-map-en.png` → `src.en: '/case-studies/willay-live-map-en.png'`). `src` is per locale so a screen of the product shows the page's language; an image without text can repeat the same path. The box is 16:9 and crops anything else from the center, so capture or crop at 16:9 to choose what stays.
 
 The results block shows `metric` in orange, then `results.cards`: `{ title, body, href? }`, where a card with `href` is a link with ↗. Under it, "View the code" uses the project's `repoUrl` (the GitHub profile without one), and "Try the live demo" appears only when the project has a `demoUrl`.
 

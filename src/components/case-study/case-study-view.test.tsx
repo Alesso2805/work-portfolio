@@ -27,7 +27,7 @@ describe('CaseStudyView optional blocks', () => {
       ...base,
       screenshot: {
         kind: 'image',
-        src: '/case-studies/x.png',
+        src: { en: '/case-studies/x-en.png', es: '/case-studies/x-es.png' },
         alt: { en: 'Dashboard', es: 'Panel' },
       },
       copy: {
@@ -38,7 +38,11 @@ describe('CaseStudyView optional blocks', () => {
     expect(screen.getByText('Role')).toBeInTheDocument();
     expect(screen.getByText('Backend lead')).toBeInTheDocument();
     expect(screen.getByText('Why it matters.')).toBeInTheDocument();
-    expect(screen.getByRole('img', { name: 'Dashboard' })).toBeInTheDocument();
+    // Tests run without the export's `unoptimized`, so next/image wraps the path in its loader URL.
+    expect(screen.getByRole('img', { name: 'Dashboard' })).toHaveAttribute(
+      'src',
+      expect.stringContaining(encodeURIComponent('/case-studies/x-en.png')),
+    );
   });
 
   it('links only the result cards that have an href', () => {
