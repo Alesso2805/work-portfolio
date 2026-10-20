@@ -176,6 +176,11 @@ export function CaseStudyView({
           <ButtonLink variant="primary" href={project.repoUrl ?? site.github}>
             {labels.viewCode}
           </ButtonLink>
+          {project.demoUrl && (
+            <ButtonLink variant="secondary" href={project.demoUrl}>
+              {labels.tryDemo}
+            </ButtonLink>
+          )}
           <ButtonLink variant="secondary" href={`${localePath(locale)}#work`}>
             {labels.backAll}
           </ButtonLink>

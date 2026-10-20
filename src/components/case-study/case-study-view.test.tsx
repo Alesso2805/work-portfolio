@@ -1,14 +1,14 @@
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import { type CaseStudy, getCaseStudy } from '@/content/case-studies';
-import { projects } from '@/content/projects';
+import { type Project, projects } from '@/content/projects';
 import { en } from '@/i18n/en';
 import { CaseStudyView } from './case-study-view';
 
 const base = getCaseStudy('genairator') as CaseStudy;
-const project = projects.find((p) => p.caseStudySlug === 'genairator');
+const genairator = projects.find((p) => p.caseStudySlug === 'genairator');
 
-function renderStudy(study: CaseStudy) {
+function renderStudy(study: CaseStudy, project: Project | undefined = genairator) {
   if (!project) throw new Error('GenAIrator project missing');
   return render(<CaseStudyView study={study} project={project} locale="en" dict={en} />);
 }
@@ -48,6 +48,18 @@ describe('CaseStudyView optional blocks', () => {
       'https://ieeexplore.ieee.org/document/11541607',
     );
     expect(screen.queryByRole('link', { name: /Thesis defended/ })).not.toBeInTheDocument();
+  });
+
+  it('offers the live demo only when the project has one', () => {
+    const { unmount } = renderStudy(base, genairator && { ...genairator, demoUrl: undefined });
+    expect(screen.queryByRole('link', { name: /Try the live demo/ })).not.toBeInTheDocument();
+    unmount();
+
+    renderStudy(base, genairator && { ...genairator, demoUrl: 'https://demo.example' });
+    expect(screen.getByRole('link', { name: /Try the live demo/ })).toHaveAttribute(
+      'href',
+      'https://demo.example',
+    );
   });
 
   it('has a single h1 and section h2s in order', () => {

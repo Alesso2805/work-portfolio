@@ -48,6 +48,7 @@ export interface Dictionary {
     back: string;
     backAll: string;
     viewCode: string;
+    tryDemo: string;
     meta: { role: string; context: string; status: string; languages: string };
     headings: {
       problem: string;

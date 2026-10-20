@@ -68,6 +68,7 @@ export const es: Dictionary = {
     back: '← Todos los proyectos',
     backAll: '← Volver a todos los proyectos',
     viewCode: 'Ver el código ↗',
+    tryDemo: 'Probar la demo ↗',
     meta: { role: 'Rol', context: 'Contexto', status: 'Estado', languages: 'Lenguajes' },
     headings: {
       problem: '01 — Problema',
