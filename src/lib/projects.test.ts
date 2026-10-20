@@ -13,11 +13,11 @@ const names = (filter: StackFilter) => filterProjects(projects, filter).map((p) 
 
 describe('project filter', () => {
   it('returns the right projects for each filter, in home order', () => {
-    expect(names('all')).toEqual(['GenAIrator', 'Vigía', 'VeriLedger API', 'SentinelAPI']);
-    expect(names('python')).toEqual(['Vigía', 'VeriLedger API', 'SentinelAPI']);
-    expect(names('ts')).toEqual(['GenAIrator', 'Vigía', 'VeriLedger API']);
+    expect(names('all')).toEqual(['GenAIrator', 'Willay', 'VeriLedger API', 'SentinelAPI']);
+    expect(names('python')).toEqual(['Willay', 'VeriLedger API', 'SentinelAPI']);
+    expect(names('ts')).toEqual(['GenAIrator', 'Willay', 'VeriLedger API']);
     expect(names('csharp')).toEqual(['GenAIrator']);
-    expect(names('sql')).toEqual(['GenAIrator', 'Vigía', 'VeriLedger API']);
+    expect(names('sql')).toEqual(['GenAIrator', 'Willay', 'VeriLedger API']);
   });
 
   it('counts projects per filter', () => {

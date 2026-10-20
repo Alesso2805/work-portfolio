@@ -36,16 +36,19 @@ export const projects: readonly Project[] = [
     caseStudySlug: 'genairator',
   },
   {
-    slug: 'vigia',
+    slug: 'willay',
     number: '02',
-    name: 'Vigía',
+    name: 'Willay',
     featured: false,
     languages: ['python', 'ts', 'sql'],
     languagesLabel: 'Python · TypeScript · SQL',
     description: {
-      en: 'Last-mile disaster early-warning orchestration. FastAPI workers, PostgreSQL as the queue, Keycloak.',
-      es: 'Orquestación de alertas tempranas de desastres en la última milla. Workers FastAPI, PostgreSQL como cola, Keycloak.',
+      en: 'Early warning for floods and debris flows — rules, incidents and alerts that escalate until someone acknowledges. FastAPI workers, PostgreSQL as the queue, Keycloak.',
+      es: 'Alerta temprana de inundaciones y huaicos — reglas, incidentes y alertas que escalan hasta que alguien confirma. Workers FastAPI, PostgreSQL como cola, Keycloak.',
     },
+    repoUrl: 'https://github.com/Alesso2805/willay',
+    demoUrl: 'https://willay.duckdns.org',
+    caseStudySlug: 'willay',
   },
   {
     slug: 'veriledger',

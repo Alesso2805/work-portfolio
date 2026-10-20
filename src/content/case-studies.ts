@@ -184,7 +184,236 @@ const genairator: CaseStudy = {
   },
 };
 
-export const caseStudies: readonly CaseStudy[] = [genairator];
+const willay: CaseStudy = {
+  slug: 'willay',
+  metric: '500',
+  screenshot: {
+    kind: 'image',
+    src: '/case-studies/willay-live-map.png',
+    alt: {
+      en: 'Willay’s live map: risk zones along the Rímac colored by their most urgent incident, and stations with their status',
+      es: 'El mapa en vivo de Willay: zonas de riesgo del Rímac coloreadas según su incidente más urgente y estaciones con su estado',
+    },
+  },
+  copy: {
+    en: {
+      kicker: 'Case study — Personal project',
+      lead: 'An early warning layer for floods and debris flows — it evaluates every sensor reading as it arrives, opens the incident and alerts the right people by email and Telegram in seconds, escalating level by level until someone acknowledges.',
+      role: 'Solo developer — from spec to deploy',
+      context: 'Personal project · 9 two-week sprints',
+      status: 'MVP deployed, with a live demo',
+      problemTitle:
+        'Between a sensor that detects an anomaly and the person who must act, there is a phone chain — and minutes lost.',
+      problemBody:
+        'In the Rasuwa flood (Nepal, August 2026) the hydrological station went silent about ten minutes after the river overflowed, and downstream warnings went out 25 minutes later: its silence was the first signal. In Peru, municipal risk offices facing huaicos and the coastal El Niño still detect events by watching charts and calling each other. Monitoring portals show the data, but nobody decides or escalates.',
+      steps: [
+        {
+          title: 'Ingest every reading',
+          description:
+            'Stations send batches over HTTP with their own API key. Each reading and its queue row are written in the same transaction.',
+        },
+        {
+          title: 'Recognize the danger',
+          description:
+            'Workers evaluate thresholds and sudden rises or drops as readings arrive. A station that goes silent in a risk zone counts as a signal too.',
+        },
+        {
+          title: 'Open the incident',
+          description:
+            'One active incident per cause, even with several evaluators racing, and a timeline that cannot be edited and outlives the readings.',
+        },
+        {
+          title: 'Alert and escalate',
+          description:
+            'Email and Telegram in seconds, in each contact’s language. If nobody acknowledges in time, the next level is alerted; one click stops it for everyone.',
+        },
+      ],
+      architecture: [
+        {
+          layer: 'Sources',
+          tech: 'Sensors · simulator',
+          notes: 'HTTP batches · per-station API key (Argon2id) · rate limit in Postgres',
+        },
+        {
+          layer: 'API',
+          tech: 'FastAPI · Python 3.12',
+          notes: 'SQLAlchemy 2 async · Pydantic v2 · SSE per organization',
+        },
+        {
+          layer: 'Workers',
+          tech: '5 Python processes',
+          notes: 'Evaluator · silence · dispatcher · escalation · Telegram',
+        },
+        {
+          layer: 'Data',
+          tech: 'PostgreSQL 16',
+          notes: 'PostGIS · TimescaleDB · queue with SKIP LOCKED · LISTEN/NOTIFY',
+        },
+        {
+          layer: 'Identity',
+          tech: 'Keycloak 26',
+          notes: 'Organizations · one tenant per user · roles from the JWT',
+        },
+        {
+          layer: 'Dashboard',
+          tech: 'Angular',
+          notes: 'Signals · Leaflet · Tailwind CSS · EN/ES · light and dark',
+        },
+        {
+          layer: 'Channels',
+          tech: 'Email · Telegram',
+          notes: 'SMTP · Bot API with an acknowledge button',
+        },
+        {
+          layer: 'Deploy',
+          tech: 'Docker Compose · Caddy',
+          notes: 'Automatic HTTPS on one hostname · arm64 and amd64',
+        },
+      ],
+      decisions: [
+        {
+          title: 'PostgreSQL as the queue, not Redis',
+          body: 'A reading and its queue row commit together, so nothing accepted is lost. Workers claim rows with SKIP LOCKED, and a row that fails five times is set aside instead of blocking the rest.',
+        },
+        {
+          title: 'Silence is a signal',
+          body: 'A station that stops reporting in a risk zone opens its own incident after K times its expected interval, because in Rasuwa the silence came first.',
+        },
+        {
+          title: 'One backend, separate processes',
+          body: 'One Python package runs as the API and five workers. Import contracts fail the build if the domain imports FastAPI or SQLAlchemy, and an injected clock tests escalation without waiting.',
+        },
+        {
+          title: 'The tenant comes from the token',
+          body: 'Keycloak 26 Organizations puts the organization in the JWT. Every query and every live event is scoped to it, and isolation is tested on every endpoint and on the SSE channel.',
+        },
+      ],
+      results: {
+        metricLabel:
+          'milliseconds (p95) from reading received to first alert sent, under load — the target is 30 s',
+        cards: [
+          {
+            title: 'No reading lost',
+            body: '9,000 batches from 50 stations in 30 minutes, every reading evaluated',
+          },
+          {
+            title: '990 backend tests',
+            body: 'Unit and integration against a real Postgres, plus 336 dashboard tests and 32 checks in a real browser',
+          },
+        ],
+      },
+    },
+    es: {
+      kicker: 'Caso de estudio — Proyecto personal',
+      lead: 'Una capa de alerta temprana para inundaciones y huaicos — evalúa cada lectura de los sensores apenas llega, abre el incidente y alerta a las personas correctas por correo y Telegram en segundos, escalando nivel por nivel hasta que alguien confirma.',
+      role: 'Desarrollador único — de la especificación al despliegue',
+      context: 'Proyecto personal · 9 sprints de dos semanas',
+      status: 'MVP desplegado, con demo en vivo',
+      problemTitle:
+        'Entre un sensor que detecta una anomalía y la persona que debe actuar hay una cadena de llamadas — y minutos perdidos.',
+      problemBody:
+        'En la inundación de Rasuwa (Nepal, agosto de 2026) la estación hidrológica dejó de transmitir unos diez minutos después del desborde, y las alertas aguas abajo salieron 25 minutos más tarde: su silencio fue la primera señal. En Perú, las oficinas municipales de gestión del riesgo que enfrentan huaicos y el Niño costero todavía detectan los eventos mirando gráficos y llamándose entre sí. Los portales de monitoreo muestran los datos, pero nadie decide ni escala.',
+      steps: [
+        {
+          title: 'Recibe cada lectura',
+          description:
+            'Las estaciones envían lotes por HTTP con su propia API key. Cada lectura y su fila en la cola se escriben en la misma transacción.',
+        },
+        {
+          title: 'Reconoce el peligro',
+          description:
+            'Los workers evalúan umbrales y subidas o caídas bruscas a medida que llegan las lecturas. Una estación que se queda en silencio en una zona de riesgo también es una señal.',
+        },
+        {
+          title: 'Abre el incidente',
+          description:
+            'Un solo incidente activo por causa, aunque varios evaluadores compitan, y una línea de tiempo que no se puede editar y sobrevive a las lecturas.',
+        },
+        {
+          title: 'Alerta y escala',
+          description:
+            'Correo y Telegram en segundos, en el idioma de cada contacto. Si nadie confirma a tiempo, se alerta al siguiente nivel; un clic lo detiene para todos.',
+        },
+      ],
+      architecture: [
+        {
+          layer: 'Fuentes',
+          tech: 'Sensores · simulador',
+          notes: 'Lotes HTTP · API key por estación (Argon2id) · rate limit en Postgres',
+        },
+        {
+          layer: 'API',
+          tech: 'FastAPI · Python 3.12',
+          notes: 'SQLAlchemy 2 async · Pydantic v2 · SSE por organización',
+        },
+        {
+          layer: 'Workers',
+          tech: '5 procesos Python',
+          notes: 'Evaluador · silencio · despachador · escalamiento · Telegram',
+        },
+        {
+          layer: 'Datos',
+          tech: 'PostgreSQL 16',
+          notes: 'PostGIS · TimescaleDB · cola con SKIP LOCKED · LISTEN/NOTIFY',
+        },
+        {
+          layer: 'Identidad',
+          tech: 'Keycloak 26',
+          notes: 'Organizations · un tenant por usuario · roles desde el JWT',
+        },
+        {
+          layer: 'Dashboard',
+          tech: 'Angular',
+          notes: 'Signals · Leaflet · Tailwind CSS · ES/EN · claro y oscuro',
+        },
+        {
+          layer: 'Canales',
+          tech: 'Correo · Telegram',
+          notes: 'SMTP · Bot API con botón para confirmar',
+        },
+        {
+          layer: 'Despliegue',
+          tech: 'Docker Compose · Caddy',
+          notes: 'HTTPS automático en un solo dominio · arm64 y amd64',
+        },
+      ],
+      decisions: [
+        {
+          title: 'PostgreSQL como cola, no Redis',
+          body: 'Una lectura y su fila en la cola se confirman juntas, así que nada de lo aceptado se pierde. Los workers toman filas con SKIP LOCKED, y una fila que falla cinco veces se aparta en lugar de bloquear al resto.',
+        },
+        {
+          title: 'El silencio es una señal',
+          body: 'Una estación que deja de reportar en una zona de riesgo abre su propio incidente tras K veces su intervalo esperado, porque en Rasuwa el silencio llegó primero.',
+        },
+        {
+          title: 'Un backend, procesos separados',
+          body: 'Un solo paquete Python corre como la API y cinco workers. Los contratos de importación rompen el build si el dominio importa FastAPI o SQLAlchemy, y un reloj inyectado prueba el escalamiento sin esperar.',
+        },
+        {
+          title: 'El tenant viene del token',
+          body: 'Keycloak 26 Organizations pone la organización en el JWT. Cada consulta y cada evento en vivo se limitan a ella, y el aislamiento se prueba en cada endpoint y en el canal SSE.',
+        },
+      ],
+      results: {
+        metricLabel:
+          'milisegundos (p95) desde la lectura recibida hasta la primera alerta enviada, bajo carga — la meta es 30 s',
+        cards: [
+          {
+            title: 'Ninguna lectura perdida',
+            body: '9000 lotes de 50 estaciones en 30 minutos, todas las lecturas evaluadas',
+          },
+          {
+            title: '990 tests de backend',
+            body: 'Unitarios y de integración contra un Postgres real, más 336 tests del dashboard y 32 pruebas en un navegador real',
+          },
+        ],
+      },
+    },
+  },
+};
+
+export const caseStudies: readonly CaseStudy[] = [genairator, willay];
 
 export function getCaseStudy(slug: string): CaseStudy | undefined {
   return caseStudies.find((study) => study.slug === slug);
