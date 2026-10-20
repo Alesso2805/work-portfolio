@@ -19,7 +19,7 @@ A bilingual (EN / ES) static site with light and dark themes, built from a fixed
 - **WCAG 2.1 AA:** keyboard-only usable, skip link, real buttons with `aria-pressed`, contrast ≥ 4.5:1 in both themes, `prefers-reduced-motion` respected
 - **Hand-built i18n and theming:** typed EN/ES dictionaries (a missing key is a compile error) and a theme with no flash on load. No libraries for either
 - **Minimal client JavaScript:** only the project filter, the theme toggle and the `/` redirect run in the browser; everything else is prerendered
-- **Tested and checked in CI:** 31 Vitest tests, plus Biome lint, a strict typecheck and a production build on every push
+- **Tested and checked in CI:** 35 Vitest tests, plus Biome lint, a strict typecheck and a production build on every push
 
 ## Stack
 
@@ -58,6 +58,7 @@ pnpm dev          # http://localhost:3000 → redirects to /en or /es
 | `/` | Redirects to `/es` when `navigator.language` starts with `es`, else to `/en`. Without JS it shows a link to each language |
 | `/en`, `/es` | Home |
 | `/en/projects/genairator`, `/es/projects/genairator` | GenAIrator case study |
+| `/en/projects/willay`, `/es/projects/willay` | Willay case study |
 | anything else | Styled 404 |
 
 Also generated: `sitemap.xml`, `robots.txt`, `og.png`, `favicon.ico`, `icon.png` and `apple-icon.png`.
@@ -123,7 +124,9 @@ The optional fields hide their block while they are empty:
 | `problemBody` | only the big problem sentence is shown |
 | `screenshot` | the 16:9 media box is hidden |
 
-`screenshot` takes `{ kind: 'image' | 'video', src, alt: { en, es } }`, with the file in `public/` (e.g. `public/case-studies/genairator.png` → `src: '/case-studies/genairator.png'`).
+`screenshot` takes `{ kind: 'image' | 'video', src, alt: { en, es } }`, with the file in `public/` (e.g. `public/case-studies/willay-live-map.png` → `src: '/case-studies/willay-live-map.png'`). The box is 16:9 and crops anything else from the center, so crop the file to 16:9 yourself to choose what stays.
+
+The results block shows `metric` in orange, then `results.cards`: `{ title, body, href? }`, where a card with `href` is a link with ↗. Under it, "View the code" uses the project's `repoUrl` (the GitHub profile without one), and "Try the live demo" appears only when the project has a `demoUrl`.
 
 ### CVs
 
@@ -197,10 +200,11 @@ The visual design was approved before any code was written, and the build follow
 
 ## Pending
 
-- [ ] `repoUrl` and `demoUrl` for **Vigía**, **VeriLedger API** and **SentinelAPI** (their rows are not links until then)
-- [ ] Where to show `demoUrl` (the design has no slot for it yet)
+- [ ] Make **github.com/Alesso2805/willay** public: it is still private, so Willay's "View the code" leads to a 404 until then
+- [ ] `repoUrl` and `demoUrl` for **VeriLedger API** and **SentinelAPI** (their rows are not links until then)
+- [ ] Where to show `demoUrl` for a project without a case study (today it only appears as a button on case study pages)
 - [ ] GenAIrator `repoUrl`; "View the code" points to the GitHub profile until then
-- [ ] Case study: **role**, **problem paragraph** (`problemBody`) and **screenshot / video**
+- [ ] GenAIrator case study: **role**, **problem paragraph** (`problemBody`) and **screenshot / video**
 - [ ] Confirm the exact **paper title** and its **DOI** (then add the DOI to the `ScholarlyArticle` JSON-LD)
 - [ ] Final **domain**: set `NEXT_PUBLIC_SITE_URL` if it is not the Netlify URL
 - [ ] Link the GitHub repo in Netlify for continuous deployment (see *Deploy*)
