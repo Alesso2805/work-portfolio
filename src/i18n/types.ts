@@ -49,6 +49,8 @@ export interface Dictionary {
     backAll: string;
     viewCode: string;
     tryDemo: string;
+    /** The carousel of screens: its name, its buttons, and the word in "2 of 6". */
+    media: { label: string; previous: string; next: string; of: string };
     meta: { role: string; context: string; status: string; languages: string };
     headings: {
       problem: string;

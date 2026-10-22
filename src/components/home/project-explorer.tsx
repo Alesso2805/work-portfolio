@@ -27,7 +27,7 @@ function writeStackToUrl(filter: StackFilter) {
 }
 
 /**
- * The only stateful component: language filter, toolbelt line and project list.
+ * The home page's stateful component: language filter, toolbelt line and project list.
  * The filter lives in `?stack=` so a filtered view can be shared. Prerendered as "All".
  */
 export function ProjectExplorer({

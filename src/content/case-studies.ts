@@ -27,14 +27,18 @@ export interface CaseStudy {
   slug: string;
   /** Big number in the orange results block. */
   metric: string;
-  /** Image or short video for the 16:9 box. Empty → the box is hidden. Files go in public/. */
-  screenshot?: {
-    kind: 'image' | 'video';
-    /** One file per locale, so a screen of the product shows the page's language. */
-    src: Record<Locale, string>;
-    alt: Record<Locale, string>;
-  };
+  /** Images or short videos for the 16:9 box; more than one becomes a carousel. Empty → the box is hidden. Files go in public/. */
+  media?: readonly CaseStudyMedia[];
   copy: Record<Locale, CaseStudyCopy>;
+}
+
+export interface CaseStudyMedia {
+  kind: 'image' | 'video';
+  /** One file per locale, so a screen of the product shows the page's language. */
+  src: Record<Locale, string>;
+  alt: Record<Locale, string>;
+  /** What the screen shows, for someone who has never used the product. Empty → no caption. */
+  caption?: Record<Locale, { title: string; body: string }>;
 }
 
 const genairator: CaseStudy = {
@@ -188,17 +192,19 @@ const genairator: CaseStudy = {
 const willay: CaseStudy = {
   slug: 'willay',
   metric: '500',
-  screenshot: {
-    kind: 'image',
-    src: {
-      en: '/case-studies/willay-live-map-en.png',
-      es: '/case-studies/willay-live-map-es.png',
+  media: [
+    {
+      kind: 'image',
+      src: {
+        en: '/case-studies/willay-live-map-en.png',
+        es: '/case-studies/willay-live-map-es.png',
+      },
+      alt: {
+        en: 'Willay’s live map: risk zones along the Rímac colored by their most urgent incident, and stations with their status',
+        es: 'El mapa en vivo de Willay: zonas de riesgo del Rímac coloreadas según su incidente más urgente y estaciones con su estado',
+      },
     },
-    alt: {
-      en: 'Willay’s live map: risk zones along the Rímac colored by their most urgent incident, and stations with their status',
-      es: 'El mapa en vivo de Willay: zonas de riesgo del Rímac coloreadas según su incidente más urgente y estaciones con su estado',
-    },
-  },
+  ],
   copy: {
     en: {
       kicker: 'Case study — Personal project',
@@ -420,17 +426,134 @@ const willay: CaseStudy = {
 const veriledger: CaseStudy = {
   slug: 'veriledger',
   metric: '9/9',
-  screenshot: {
-    kind: 'image',
-    src: {
-      en: '/case-studies/veriledger-chain-en.png',
-      es: '/case-studies/veriledger-chain-es.png',
+  media: [
+    {
+      kind: 'image',
+      src: {
+        en: '/case-studies/veriledger-chain-en.png',
+        es: '/case-studies/veriledger-chain-es.png',
+      },
+      alt: {
+        en: 'The chain page: the newest blocks as a ribbon of fingerprints, the newest one selected, and a panel to mine the next block',
+        es: 'La página de la cadena: los bloques más nuevos como una cinta de huellas, el más nuevo seleccionado y un panel para minar el siguiente',
+      },
+      caption: {
+        en: {
+          title: 'The chain, drawn as fingerprints',
+          body: 'Each block’s hash is drawn as coloured bars, one per byte, and each block carries the fingerprint of the one before — so changing any block would break every link after it. Anyone can browse it without an account.',
+        },
+        es: {
+          title: 'La cadena, dibujada como huellas',
+          body: 'El hash de cada bloque se dibuja como barras de colores, una por byte, y cada bloque lleva la huella del anterior: cambiar cualquier bloque rompería todos los enlaces que le siguen. Cualquiera puede recorrerla sin cuenta.',
+        },
+      },
     },
-    alt: {
-      en: 'VeriLedger’s chain: the newest blocks as a ribbon of fingerprints, each linked to the one before, with block #5 selected',
-      es: 'La cadena de VeriLedger: los bloques más nuevos como una cinta de huellas, cada uno enlazado al anterior, con el bloque #5 seleccionado',
+    {
+      kind: 'image',
+      src: {
+        en: '/case-studies/veriledger-wallet-en.png',
+        es: '/case-studies/veriledger-wallet-es.png',
+      },
+      alt: {
+        en: 'The wallet page: a new address with its fingerprint, a balance of 0.00 VL and a prompt to save the key file',
+        es: 'La página de la billetera: una dirección nueva con su huella, un saldo de 0.00 VL y el aviso para guardar el archivo de la clave',
+      },
+      caption: {
+        en: {
+          title: 'A wallet created in the browser',
+          body: 'The Ed25519 key pair is generated in this tab and never reaches the server. The page asks you to save the key file, because a reload forgets it.',
+        },
+        es: {
+          title: 'Una billetera creada en el navegador',
+          body: 'El par de claves Ed25519 se genera en esta pestaña y nunca llega al servidor. La página pide guardar el archivo de la clave, porque al recargar se olvida.',
+        },
+      },
     },
-  },
+    {
+      kind: 'image',
+      src: {
+        en: '/case-studies/veriledger-sign-en.png',
+        es: '/case-studies/veriledger-sign-es.png',
+      },
+      alt: {
+        en: 'The sign and send page: a transfer of 10 VL, the exact JSON message being signed and its 64-byte Ed25519 signature',
+        es: 'La página de firmar y enviar: una transferencia de 10 VL, el mensaje JSON exacto que se firma y su firma Ed25519 de 64 bytes',
+      },
+      caption: {
+        en: {
+          title: 'Exactly what you sign',
+          body: 'Before anything is sent, the page shows the canonical message — sorted keys, no spaces, amounts with 8 decimals and a nonce — and its Ed25519 signature. The API rebuilds the same bytes and verifies them.',
+        },
+        es: {
+          title: 'Exactamente lo que firmas',
+          body: 'Antes de enviar nada, la página muestra el mensaje canónico — claves ordenadas, sin espacios, montos con 8 decimales y un nonce — y su firma Ed25519. La API reconstruye los mismos bytes y los verifica.',
+        },
+      },
+    },
+    {
+      kind: 'image',
+      src: {
+        en: '/case-studies/veriledger-notarize-en.png',
+        es: '/case-studies/veriledger-notarize-es.png',
+      },
+      alt: {
+        en: 'Notarizing service-agreement.pdf: its SHA-256 fingerprint, and the signed message with that fingerprint as the payload',
+        es: 'Notarizando contrato-de-servicios.pdf: su huella SHA-256 y el mensaje firmado con esa huella como payload',
+      },
+      caption: {
+        en: {
+          title: 'Notarizing a document',
+          body: 'The file is hashed with SHA-256 in the browser, and only that fingerprint goes into the signed message, as its payload. The document itself never leaves the device.',
+        },
+        es: {
+          title: 'Notarizar un documento',
+          body: 'El archivo se hashea con SHA-256 en el navegador y solo esa huella entra en el mensaje firmado, como payload. El documento nunca sale del dispositivo.',
+        },
+      },
+    },
+    {
+      kind: 'image',
+      src: {
+        en: '/case-studies/veriledger-transaction-en.png',
+        es: '/case-studies/veriledger-transaction-es.png',
+      },
+      alt: {
+        en: 'A transfer’s page: its journey from signed to sealed in a block, its details, and its signature checked in the browser',
+        es: 'La página de una transferencia: su recorrido de firmada a sellada en un bloque, sus detalles y su firma verificada en el navegador',
+      },
+      caption: {
+        en: {
+          title: 'A transaction’s journey',
+          body: 'Signed in the browser, accepted by the node, sealed in a block, then buried under the next ones. The page checks the signature again in this browser against the sender’s address.',
+        },
+        es: {
+          title: 'El recorrido de una transacción',
+          body: 'Firmada en el navegador, aceptada por el nodo, sellada en un bloque y luego enterrada bajo los siguientes. La página vuelve a verificar la firma en este navegador con la dirección del remitente.',
+        },
+      },
+    },
+    {
+      kind: 'image',
+      src: {
+        en: '/case-studies/veriledger-certificate-en.png',
+        es: '/case-studies/veriledger-certificate-es.png',
+      },
+      alt: {
+        en: 'A notarization’s certificate: the date the document existed, its fingerprint, and the same file checked against it with a match',
+        es: 'El certificado de una notarización: la fecha en que existía el documento, su huella y el mismo archivo comparado con ella, con resultado coincide',
+      },
+      caption: {
+        en: {
+          title: 'Proof of existence',
+          body: 'The certificate says when the document was sealed. Choose the same file and it is hashed locally and compared with the chain: a match proves it existed then, unchanged.',
+        },
+        es: {
+          title: 'Prueba de existencia',
+          body: 'El certificado indica cuándo se selló el documento. Al elegir el mismo archivo, se hashea en local y se compara con la cadena: si coincide, queda probado que existía en ese momento, sin cambios.',
+        },
+      },
+    },
+  ],
   copy: {
     en: {
       kicker: 'Case study — Personal project',

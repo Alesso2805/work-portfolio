@@ -1,10 +1,11 @@
-import Image from 'next/image';
 import { ButtonLink } from '@/components/button-link';
 import { site } from '@/config/site';
 import type { CaseStudy } from '@/content/case-studies';
 import type { Project } from '@/content/projects';
 import type { Dictionary } from '@/i18n';
 import { type Locale, localePath } from '@/i18n/config';
+import { CaseStudyCarousel } from './case-study-carousel';
+import { MediaFigure, type MediaSlide } from './case-study-media';
 
 const sectionClass = 'pt-[clamp(56px,7vw,96px)]';
 const cardClass = 'flex flex-[1_1_260px] flex-col justify-end border-2 border-rule p-8';
@@ -37,6 +38,14 @@ export function CaseStudyView({
     label: repo.label[locale],
   })) ?? [{ href: project.repoUrl ?? site.github, label: labels.viewCode }];
 
+  // One screen is a plain figure; several become a carousel, the only part of the page that needs JS.
+  const slides: MediaSlide[] = (study.media ?? []).map((media) => ({
+    kind: media.kind,
+    src: media.src[locale],
+    alt: media.alt[locale],
+    caption: media.caption?.[locale],
+  }));
+
   return (
     <>
       <section className="pt-[clamp(48px,7vw,96px)] pb-12">
@@ -58,28 +67,10 @@ export function CaseStudyView({
         ))}
       </dl>
 
-      {study.screenshot && (
-        <div className="relative mt-12 aspect-video overflow-hidden border-2 border-rule">
-          {study.screenshot.kind === 'video' ? (
-            <video
-              src={study.screenshot.src[locale]}
-              aria-label={study.screenshot.alt[locale]}
-              className="size-full object-cover"
-              controls
-              muted
-              playsInline
-              preload="metadata"
-            />
-          ) : (
-            <Image
-              src={study.screenshot.src[locale]}
-              alt={study.screenshot.alt[locale]}
-              fill
-              sizes="(max-width: 1280px) 100vw, 1184px"
-              className="object-cover"
-            />
-          )}
-        </div>
+      {slides.length > 1 ? (
+        <CaseStudyCarousel slides={slides} labels={labels.media} />
+      ) : (
+        slides[0] && <MediaFigure slide={slides[0]} className="mt-12" />
       )}
 
       <section className={`${sectionClass} flex flex-wrap gap-x-12 gap-y-6`}>

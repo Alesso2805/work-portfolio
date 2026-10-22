@@ -69,6 +69,12 @@ export const es: Dictionary = {
     backAll: '← Volver a todos los proyectos',
     viewCode: 'Ver el código ↗',
     tryDemo: 'Probar la demo ↗',
+    media: {
+      label: 'Pantallas',
+      previous: 'Pantalla anterior',
+      next: 'Pantalla siguiente',
+      of: 'de',
+    },
     meta: { role: 'Rol', context: 'Contexto', status: 'Estado', languages: 'Lenguajes' },
     headings: {
       problem: '01 — Problema',

@@ -74,7 +74,7 @@ src/
     global-not-found.tsx 404 for every unmatched URL
     sitemap.ts, robots.ts, favicon.ico, icon.png, apple-icon.png
     globals.css          design tokens + Tailwind theme mapping
-  components/            Server Components; only ThemeToggle and ProjectExplorer run on the client
+  components/            Server Components; only ThemeToggle, ProjectExplorer and CaseStudyCarousel run on the client
   config/site.ts         email, GitHub, LinkedIn, paper, CV per locale, public URL
   content/
     projects.ts          every project shown on the home page
@@ -124,9 +124,12 @@ The optional fields hide their block while they are empty:
 |---|---|
 | `role` | the "Role" metadata column is hidden |
 | `problemBody` | only the big problem sentence is shown |
-| `screenshot` | the 16:9 media box is hidden |
+| `media` | the 16:9 media box is hidden |
+| a screen's `caption` | the screen is shown without text under it |
 
-`screenshot` takes `{ kind: 'image' | 'video', src: { en, es }, alt: { en, es } }`, with the files in `public/` (e.g. `public/case-studies/willay-live-map-en.png` → `src.en: '/case-studies/willay-live-map-en.png'`). `src` is per locale so a screen of the product shows the page's language; an image without text can repeat the same path. The box is 16:9 and crops anything else from the center, so capture or crop at 16:9 to choose what stays.
+`media` is a list of screens, each `{ kind: 'image' | 'video', src: { en, es }, alt: { en, es }, caption?: { en: { title, body }, es: { title, body } } }`, with the files in `public/` (e.g. `public/case-studies/willay-live-map-en.png` → `src.en: '/case-studies/willay-live-map-en.png'`). `src` is per locale so a screen of the product shows the page's language; an image without text can repeat the same path. The box is 16:9 and crops anything else from the center, so capture or crop at 16:9 to choose what stays.
+
+One screen is a plain figure (Willay). Several become a carousel (VeriLedger): one screen at a time, with its caption under it, moved by ← → buttons or a swipe, never by itself. The caption is for a reader who has never used the product: a short title, then what the screen shows and why it matters. Without JS the screens are a strip that scrolls sideways.
 
 The results block shows `metric` in orange, then `results.cards`: `{ title, body, href? }`, where a card with `href` is a link with ↗. Under it, "View the code" uses the project's `repoUrl` (the GitHub profile without one), and "Try the live demo" appears only when the project has a `demoUrl`. A project with several repositories (VeriLedger: its API and its web app) lists them in `repos`, and the case study shows one button per repository, with its own label, instead of "View the code".
 
@@ -160,8 +163,9 @@ The sources are `scripts/assets/og.html` and `scripts/assets/icon.html`. After e
 
 - **Theme.** `data-theme` on `<html>` switches the CSS variables. A small inline script in `<head>` applies the stored choice, or the system preference, before first paint, so the page never flashes. The toggle stores the choice in `localStorage`; until then the site follows OS changes live. Without JS, a `prefers-color-scheme` media query takes over.
 - **i18n.** `/[locale]` is a root layout, so `<html lang>` is correct in the static HTML. Each page has a canonical URL plus `hreflang` alternates (in the `<head>` and in the sitemap). EN|ES are plain links to the same page in the other language.
-- **Project filter.** `ProjectExplorer` is the only stateful component. The filter is mirrored in `?stack=` (e.g. `/en?stack=python`) so a filtered view can be shared. The HTML is prerendered with every project visible, so the list also works without JS.
-- **Client JavaScript** is limited to the filter, the theme toggle and the `/` redirect. Everything else is a Server Component rendered at build time.
+- **Project filter.** `ProjectExplorer` keeps the home page's only state. The filter is mirrored in `?stack=` (e.g. `/en?stack=python`) so a filtered view can be shared. The HTML is prerendered with every project visible, so the list also works without JS.
+- **Case study carousel.** `CaseStudyCarousel` holds which screen is shown. It is prerendered as a strip that scrolls sideways, so every screen is reachable without JS. Once hydrated, the buttons and swipes move it, a screen reader hears the title of each new screen, and the reduced-motion rule turns its glide off. Its buttons are invisible until then but keep their space, so the page does not shift.
+- **Client JavaScript** is limited to the filter, the theme toggle, the case study carousel and the `/` redirect. Everything else is a Server Component rendered at build time.
 - **Netlify head comment.** On `*.netlify.app`, Netlify injects an HTML comment into `<head>`. React counts it as a hydration mismatch (error #418), re-renders the whole document on the client and drops the theme. A tiny inline script (`src/lib/head-cleanup.ts`) removes comment and blank nodes from `<head>` before hydration.
 
 ## Quality

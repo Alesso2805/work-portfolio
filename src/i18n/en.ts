@@ -68,6 +68,7 @@ export const en: Dictionary = {
     backAll: '← Back to all work',
     viewCode: 'View the code ↗',
     tryDemo: 'Try the live demo ↗',
+    media: { label: 'Screens', previous: 'Previous screen', next: 'Next screen', of: 'of' },
     meta: { role: 'Role', context: 'Context', status: 'Status', languages: 'Languages' },
     headings: {
       problem: '01 — Problem',
