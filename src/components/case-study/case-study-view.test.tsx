@@ -66,6 +66,28 @@ describe('CaseStudyView optional blocks', () => {
     );
   });
 
+  it('offers one code button per repository when the project has several', () => {
+    renderStudy(
+      base,
+      genairator && {
+        ...genairator,
+        repos: [
+          { url: 'https://github.com/a/api', label: { en: 'View the API code', es: 'API' } },
+          { url: 'https://github.com/a/web', label: { en: 'View the web app code', es: 'Web' } },
+        ],
+      },
+    );
+    expect(screen.getByRole('link', { name: 'View the API code' })).toHaveAttribute(
+      'href',
+      'https://github.com/a/api',
+    );
+    expect(screen.getByRole('link', { name: 'View the web app code' })).toHaveAttribute(
+      'href',
+      'https://github.com/a/web',
+    );
+    expect(screen.queryByRole('link', { name: /^View the code/ })).not.toBeInTheDocument();
+  });
+
   it('has a single h1 and section h2s in order', () => {
     renderStudy(base);
     expect(screen.getAllByRole('heading', { level: 1 })).toHaveLength(1);

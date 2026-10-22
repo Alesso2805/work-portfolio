@@ -31,6 +31,12 @@ export function CaseStudyView({
     { label: labels.meta.languages, value: project.languagesLabel },
   ].filter((item) => item !== null);
 
+  // One button per repository; with a single one, "View the code" (the GitHub profile without a repo).
+  const codeLinks = project.repos?.map((repo) => ({
+    href: repo.url,
+    label: repo.label[locale],
+  })) ?? [{ href: project.repoUrl ?? site.github, label: labels.viewCode }];
+
   return (
     <>
       <section className="pt-[clamp(48px,7vw,96px)] pb-12">
@@ -173,9 +179,15 @@ export function CaseStudyView({
           })}
         </div>
         <div className="mt-12 flex flex-wrap gap-2.5">
-          <ButtonLink variant="primary" href={project.repoUrl ?? site.github}>
-            {labels.viewCode}
-          </ButtonLink>
+          {codeLinks.map((link, index) => (
+            <ButtonLink
+              key={link.href}
+              variant={index === 0 ? 'primary' : 'secondary'}
+              href={link.href}
+            >
+              {link.label}
+            </ButtonLink>
+          ))}
           {project.demoUrl && (
             <ButtonLink variant="secondary" href={project.demoUrl}>
               {labels.tryDemo}

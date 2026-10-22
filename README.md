@@ -59,6 +59,7 @@ pnpm dev          # http://localhost:3000 → redirects to /en or /es
 | `/en`, `/es` | Home |
 | `/en/projects/genairator`, `/es/projects/genairator` | GenAIrator case study |
 | `/en/projects/willay`, `/es/projects/willay` | Willay case study |
+| `/en/projects/veriledger`, `/es/projects/veriledger` | VeriLedger case study |
 | anything else | Styled 404 |
 
 Also generated: `sitemap.xml`, `robots.txt`, `og.png`, `favicon.ico`, `icon.png` and `apple-icon.png`.
@@ -104,6 +105,7 @@ Edit `src/content/projects.ts`. Components never need to change.
   languagesLabel: 'Python · SQL',
   description: { en: '…', es: '…' },
   repoUrl: 'https://github.com/Alesso2805/my-project',  // optional
+  repos: [{ url: '…', label: { en: 'View the API code ↗', es: '…' } }],  // optional, for several repos
   demoUrl: 'https://…',          // optional
   caseStudySlug: 'my-project',   // optional
 }
@@ -126,7 +128,7 @@ The optional fields hide their block while they are empty:
 
 `screenshot` takes `{ kind: 'image' | 'video', src: { en, es }, alt: { en, es } }`, with the files in `public/` (e.g. `public/case-studies/willay-live-map-en.png` → `src.en: '/case-studies/willay-live-map-en.png'`). `src` is per locale so a screen of the product shows the page's language; an image without text can repeat the same path. The box is 16:9 and crops anything else from the center, so capture or crop at 16:9 to choose what stays.
 
-The results block shows `metric` in orange, then `results.cards`: `{ title, body, href? }`, where a card with `href` is a link with ↗. Under it, "View the code" uses the project's `repoUrl` (the GitHub profile without one), and "Try the live demo" appears only when the project has a `demoUrl`.
+The results block shows `metric` in orange, then `results.cards`: `{ title, body, href? }`, where a card with `href` is a link with ↗. Under it, "View the code" uses the project's `repoUrl` (the GitHub profile without one), and "Try the live demo" appears only when the project has a `demoUrl`. A project with several repositories (VeriLedger: its API and its web app) lists them in `repos`, and the case study shows one button per repository, with its own label, instead of "View the code".
 
 ### CVs
 
@@ -201,7 +203,7 @@ The visual design was approved before any code was written, and the build follow
 ## Pending
 
 - [ ] Make **github.com/Alesso2805/willay** public: it is still private, so Willay's "View the code" leads to a 404 until then
-- [ ] `repoUrl` and `demoUrl` for **VeriLedger API** and **SentinelAPI** (their rows are not links until then)
+- [ ] `repoUrl` and `demoUrl` for **SentinelAPI** (its row is not a link until then)
 - [ ] Where to show `demoUrl` for a project without a case study (today it only appears as a button on case study pages)
 - [ ] GenAIrator `repoUrl`; "View the code" points to the GitHub profile until then
 - [ ] GenAIrator case study: **role**, **problem paragraph** (`problemBody`) and **screenshot / video**

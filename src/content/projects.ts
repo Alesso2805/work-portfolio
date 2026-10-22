@@ -16,6 +16,8 @@ export interface Project {
   languagesLabel: string;
   description: Record<Locale, string>;
   repoUrl?: string;
+  /** More than one repository (e.g. an API and its web app): the case study shows one labeled button each instead of "View the code". */
+  repos?: ReadonlyArray<{ url: string; label: Record<Locale, string> }>;
   demoUrl?: string;
   /** Row links to /[locale]/projects/<caseStudySlug>; otherwise to repoUrl; otherwise it is not a link. */
   caseStudySlug?: string;
@@ -53,14 +55,27 @@ export const projects: readonly Project[] = [
   {
     slug: 'veriledger',
     number: '03',
-    name: 'VeriLedger API',
+    name: 'VeriLedger',
     featured: false,
     languages: ['python', 'ts', 'sql'],
     languagesLabel: 'Python · TypeScript · SQL',
     description: {
-      en: 'Verifiable financial ledger — transaction hashing, Merkle proofs, idempotent writes, audit log.',
-      es: 'Ledger financiero verificable — hashing de transacciones, Merkle proofs, escrituras idempotentes, log de auditoría.',
+      en: 'A verifiable ledger you can try in the browser — Ed25519 transfers and notarizations signed in the tab, Proof-of-Work blocks, peers that adopt only a fully valid chain. FastAPI, PostgreSQL, React.',
+      es: 'Un ledger verificable que se prueba en el navegador — transferencias y notarizaciones Ed25519 firmadas en la pestaña, bloques con Proof of Work, peers que solo adoptan una cadena válida. FastAPI, PostgreSQL, React.',
     },
+    repoUrl: 'https://github.com/Alesso2805/veriledger-api',
+    repos: [
+      {
+        url: 'https://github.com/Alesso2805/veriledger-api',
+        label: { en: 'View the API code ↗', es: 'Ver el código de la API ↗' },
+      },
+      {
+        url: 'https://github.com/Alesso2805/veriledger-webapp',
+        label: { en: 'View the web app code ↗', es: 'Ver el código de la web app ↗' },
+      },
+    ],
+    demoUrl: 'https://veriledger.duckdns.org',
+    caseStudySlug: 'veriledger',
   },
   {
     slug: 'sentinelapi',

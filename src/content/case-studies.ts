@@ -417,7 +417,236 @@ const willay: CaseStudy = {
   },
 };
 
-export const caseStudies: readonly CaseStudy[] = [genairator, willay];
+const veriledger: CaseStudy = {
+  slug: 'veriledger',
+  metric: '9/9',
+  screenshot: {
+    kind: 'image',
+    src: {
+      en: '/case-studies/veriledger-chain-en.png',
+      es: '/case-studies/veriledger-chain-es.png',
+    },
+    alt: {
+      en: 'VeriLedger’s chain: the newest blocks as a ribbon of fingerprints, each linked to the one before, with block #5 selected',
+      es: 'La cadena de VeriLedger: los bloques más nuevos como una cinta de huellas, cada uno enlazado al anterior, con el bloque #5 seleccionado',
+    },
+  },
+  copy: {
+    en: {
+      kicker: 'Case study — Personal project',
+      lead: 'A small, readable verifiable ledger you can try in your browser — a wallet whose private key only you hold, transfers and document notarizations signed in the tab, Proof-of-Work blocks, and peers that adopt a chain only once every block in it is valid.',
+      role: 'Solo developer — from spec to deploy',
+      context: 'Personal project · an API and a web app',
+      status: 'v1.0.0 deployed, with a live demo',
+      problemTitle:
+        'Showing that a payment happened, or that a document existed at a given moment, usually means trusting whoever keeps the record.',
+      problemBody:
+        'A ledger where every entry is signed by its author, chained by hashes and replicated between nodes lets anyone check the record instead of trusting it. But blockchains are usually explained, not shown: VeriLedger shows one in a few minutes, in the browser, with nothing to install.',
+      steps: [
+        {
+          title: 'Create a wallet',
+          description:
+            'The key pair is made in your browser and held only in the tab’s memory. It is never sent and never stored.',
+        },
+        {
+          title: 'Sign and send',
+          description:
+            'Transfer to any address, or notarize a document: it is hashed in the browser and only its fingerprint is sent. You see the exact message before you sign it.',
+        },
+        {
+          title: 'Mine a block',
+          description:
+            'Proof of Work seals every waiting transaction into a block, with a reward of 50 plus the fees for the miner. Each block carries the fingerprint of the one before.',
+        },
+        {
+          title: 'Check it yourself',
+          description:
+            'Open a transaction and its signature is verified again in your browser. For a notarization, hash your own file locally and compare it with the chain.',
+        },
+      ],
+      architecture: [
+        {
+          layer: 'Web app',
+          tech: 'React 19 · TypeScript · Vite',
+          notes: 'Ed25519 with @noble/curves · keys in the tab’s memory · EN/ES · light and dark',
+        },
+        {
+          layer: 'API',
+          tech: 'FastAPI · Python 3.12',
+          notes: 'SQLAlchemy 2 async · Pydantic v2 · layers with ports in the domain',
+        },
+        {
+          layer: 'Ledger',
+          tech: 'Ed25519 · SHA-256',
+          notes:
+            'One canonical signed message · a nonce per sender · Proof of Work off the event loop',
+        },
+        {
+          layer: 'Data',
+          tech: 'PostgreSQL 16',
+          notes: 'Alembic · one transaction per request, committed before the response',
+        },
+        {
+          layer: 'Peers',
+          tech: 'Other nodes · shared token',
+          notes:
+            'Public addresses only · the longest chain, if every block and transaction is valid',
+        },
+        {
+          layer: 'Deploy',
+          tech: 'Docker Compose · Caddy',
+          notes: 'HTTPS on one hostname: the web app at /, the API at /api',
+        },
+        {
+          layer: 'CI',
+          tech: 'GitHub Actions',
+          notes:
+            'Ruff · Mypy strict · import-linter · tests on PostgreSQL · a rehearsal of the deploy',
+        },
+      ],
+      decisions: [
+        {
+          title: 'One signed message, pinned by golden vectors',
+          body: 'The first version signed Python’s json.dumps on one side and JSON.stringify on the other, so the API rejected every transaction from the web app. Now both build one canonical message — sorted keys, no whitespace, amounts as 8-decimal strings, a nonce per sender — and both repositories test the same vectors.',
+        },
+        {
+          title: 'The private key never leaves the browser',
+          body: 'The server never generates or receives one: key generation answers 404 in production, and a test records every request of the create, transfer and notarize flow and finds no private key.',
+        },
+        {
+          title: 'Mining that cannot create money',
+          body: 'An audit found that concurrent mining created money. Now the reward, the block and the confirmations commit in one transaction, two requests for the same height get a 409, and Proof of Work runs in a worker thread so the API keeps answering.',
+        },
+        {
+          title: 'A peer’s chain is checked, not trusted',
+          body: 'A longer chain is adopted only if every hash, link, reward, signature, nonce and balance in it is valid. Peers call each other with a shared token, and only at public addresses, so a peer’s URL cannot reach the server’s own network.',
+        },
+      ],
+      results: {
+        metricLabel:
+          'blocking problems an audit found in the first version of the API — forged tokens, replays, money created by concurrent mining — all fixed',
+        cards: [
+          {
+            title: '199 API tests',
+            body: 'Unit, architecture and integration tests against a real PostgreSQL, plus 399 web app tests and 84 checks in a real browser',
+          },
+          {
+            title: '27 rules that fail the build',
+            body: '16 in the API and 11 in the web app, each checked by a test: the domain never imports FastAPI or SQLAlchemy, and no request carries a private key',
+          },
+        ],
+      },
+    },
+    es: {
+      kicker: 'Caso de estudio — Proyecto personal',
+      lead: 'Un ledger verificable, pequeño y legible, que se prueba en el navegador — una billetera cuya clave privada solo tienes tú, transferencias y notarizaciones de documentos firmadas en la pestaña, bloques con Proof of Work y peers que solo adoptan una cadena cuando cada uno de sus bloques es válido.',
+      role: 'Desarrollador único — de la especificación al despliegue',
+      context: 'Proyecto personal · una API y una web app',
+      status: 'v1.0.0 desplegada, con demo en vivo',
+      problemTitle:
+        'Demostrar que un pago ocurrió, o que un documento existía en un momento dado, suele significar confiar en quien guarda el registro.',
+      problemBody:
+        'Un ledger donde cada entrada está firmada por su autor, encadenada por hashes y replicada entre nodos permite que cualquiera verifique el registro en lugar de confiar en él. Pero las blockchains suelen explicarse, no mostrarse: VeriLedger muestra una en pocos minutos, en el navegador, sin instalar nada.',
+      steps: [
+        {
+          title: 'Crea una billetera',
+          description:
+            'El par de claves se genera en tu navegador y vive solo en la memoria de la pestaña. Nunca se envía ni se guarda.',
+        },
+        {
+          title: 'Firma y envía',
+          description:
+            'Transfiere a cualquier dirección, o notariza un documento: se hashea en el navegador y solo se envía su huella. Ves el mensaje exacto antes de firmarlo.',
+        },
+        {
+          title: 'Mina un bloque',
+          description:
+            'El Proof of Work sella en un bloque todas las transacciones en espera, con una recompensa de 50 más las comisiones para quien mina. Cada bloque lleva la huella del anterior.',
+        },
+        {
+          title: 'Compruébalo tú',
+          description:
+            'Abre una transacción y su firma se verifica de nuevo en tu navegador. Para una notarización, hashea tu propio archivo en local y compáralo con la cadena.',
+        },
+      ],
+      architecture: [
+        {
+          layer: 'Web app',
+          tech: 'React 19 · TypeScript · Vite',
+          notes:
+            'Ed25519 con @noble/curves · claves en la memoria de la pestaña · ES/EN · claro y oscuro',
+        },
+        {
+          layer: 'API',
+          tech: 'FastAPI · Python 3.12',
+          notes: 'SQLAlchemy 2 async · Pydantic v2 · capas con puertos en el dominio',
+        },
+        {
+          layer: 'Ledger',
+          tech: 'Ed25519 · SHA-256',
+          notes:
+            'Un único mensaje firmado canónico · un nonce por emisor · Proof of Work fuera del event loop',
+        },
+        {
+          layer: 'Datos',
+          tech: 'PostgreSQL 16',
+          notes: 'Alembic · una transacción por petición, confirmada antes de la respuesta',
+        },
+        {
+          layer: 'Peers',
+          tech: 'Otros nodos · token compartido',
+          notes:
+            'Solo direcciones públicas · la cadena más larga, si cada bloque y transacción es válido',
+        },
+        {
+          layer: 'Despliegue',
+          tech: 'Docker Compose · Caddy',
+          notes: 'HTTPS en un solo dominio: la web app en /, la API en /api',
+        },
+        {
+          layer: 'CI',
+          tech: 'GitHub Actions',
+          notes:
+            'Ruff · Mypy strict · import-linter · tests sobre PostgreSQL · un ensayo del despliegue',
+        },
+      ],
+      decisions: [
+        {
+          title: 'Un mensaje firmado, fijado por vectores de referencia',
+          body: 'La primera versión firmaba con json.dumps de Python en un lado y JSON.stringify en el otro, así que la API rechazaba todas las transacciones de la web app. Ahora ambos construyen un único mensaje canónico — claves ordenadas, sin espacios, montos como texto con 8 decimales, un nonce por emisor — y los dos repositorios prueban los mismos vectores.',
+        },
+        {
+          title: 'La clave privada nunca sale del navegador',
+          body: 'El servidor nunca genera ni recibe una: la generación de claves responde 404 en producción, y un test registra cada petición del flujo crear, transferir y notarizar sin encontrar ninguna clave privada.',
+        },
+        {
+          title: 'Minar sin crear dinero',
+          body: 'Una auditoría encontró que minar en paralelo creaba dinero. Ahora la recompensa, el bloque y las confirmaciones se guardan en una sola transacción, dos peticiones para la misma altura reciben un 409 y el Proof of Work corre en un hilo aparte para que la API siga respondiendo.',
+        },
+        {
+          title: 'La cadena de un peer se comprueba, no se cree',
+          body: 'Una cadena más larga solo se adopta si cada hash, enlace, recompensa, firma, nonce y saldo es válido. Los peers se llaman entre sí con un token compartido, y solo en direcciones públicas, para que la URL de un peer no pueda alcanzar la red interna del servidor.',
+        },
+      ],
+      results: {
+        metricLabel:
+          'problemas bloqueantes que una auditoría encontró en la primera versión de la API — tokens falsificables, repeticiones, dinero creado al minar en paralelo — todos resueltos',
+        cards: [
+          {
+            title: '199 tests de la API',
+            body: 'Unitarios, de arquitectura y de integración contra un PostgreSQL real, más 399 tests de la web app y 84 pruebas en un navegador real',
+          },
+          {
+            title: '27 reglas que rompen el build',
+            body: '16 en la API y 11 en la web app, cada una comprobada por un test: el dominio nunca importa FastAPI ni SQLAlchemy, y ninguna petición lleva una clave privada',
+          },
+        ],
+      },
+    },
+  },
+};
+
+export const caseStudies: readonly CaseStudy[] = [genairator, willay, veriledger];
 
 export function getCaseStudy(slug: string): CaseStudy | undefined {
   return caseStudies.find((study) => study.slug === slug);
