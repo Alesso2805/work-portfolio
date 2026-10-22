@@ -41,6 +41,8 @@ export function MediaFigure({
             fill
             sizes="(max-width: 1280px) 100vw, 1184px"
             className="object-cover"
+            // Dragging the carousel must move the screens, not lift the image out of the page.
+            draggable={false}
           />
         )}
       </div>

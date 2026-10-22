@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, within } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import { type CaseStudy, type CaseStudyMedia, getCaseStudy } from '@/content/case-studies';
 import { type Project, projects } from '@/content/projects';
@@ -99,26 +99,51 @@ describe('CaseStudyView optional blocks', () => {
       '3 of 3',
     ]);
     expect(slides[1]).toHaveAttribute('aria-roledescription', 'slide');
-    expect(screen.getByText('Title 2')).toBeInTheDocument();
-    expect(screen.getByText('Body 3')).toBeInTheDocument();
+    expect(within(slides[1] as HTMLElement).getByText('Title 2')).toBeInTheDocument();
+    expect(within(slides[2] as HTMLElement).getByText('Body 3')).toBeInTheDocument();
+    // The loop's copies of the last and first screens, at either end, are out of reach.
+    const copies = screen.getAllByText('Body 3').filter((el) => !slides[2]?.contains(el));
+    expect(copies).toHaveLength(1);
+    expect(copies[0]?.closest('[aria-hidden="true"]')).toHaveAttribute('inert');
   });
 
-  it('moves one screen at a time with its buttons, and announces each', () => {
+  it('moves one screen at a time with its buttons, announces each, and loops', () => {
     renderStudy({ ...base, media: [screenOf(1), screenOf(2), screenOf(3)] });
     const previous = screen.getByRole('button', { name: 'Previous screen' });
     const next = screen.getByRole('button', { name: 'Next screen' });
     expect(screen.getByText('01 / 03')).toBeInTheDocument();
-    expect(previous).toBeDisabled();
 
     fireEvent.click(next);
     expect(screen.getByText('02 / 03')).toBeInTheDocument();
     expect(screen.getByText('Title 2, 2 of 3')).toBeInTheDocument();
-    expect(previous).toBeEnabled();
 
     fireEvent.click(next);
-    expect(next).toBeDisabled();
+    fireEvent.click(next);
+    expect(screen.getByText('01 / 03')).toBeInTheDocument();
+    expect(screen.getByText('Title 1, 1 of 3')).toBeInTheDocument();
+
     fireEvent.click(previous);
-    expect(screen.getByText('Title 2, 2 of 3')).toBeInTheDocument();
+    expect(screen.getByText('03 / 03')).toBeInTheDocument();
+    expect(previous).toBeEnabled();
+    expect(next).toBeEnabled();
+  });
+
+  it('moves with a drag, and springs back from a short one', () => {
+    renderStudy({ ...base, media: [screenOf(1), screenOf(2), screenOf(3)] });
+    const track = screen.getAllByRole('figure')[0]?.parentElement as HTMLElement;
+    const dragBy = (distance: number) => {
+      fireEvent.pointerDown(track, { pointerId: 1, pointerType: 'mouse', button: 0, clientX: 600 });
+      fireEvent.pointerMove(track, { pointerId: 1, pointerType: 'mouse', clientX: 600 + distance });
+      fireEvent.pointerUp(track, { pointerId: 1, pointerType: 'mouse', clientX: 600 + distance });
+    };
+
+    dragBy(-200);
+    expect(screen.getByText('02 / 03')).toBeInTheDocument();
+    dragBy(10);
+    expect(screen.getByText('02 / 03')).toBeInTheDocument();
+    dragBy(200);
+    dragBy(200);
+    expect(screen.getByText('03 / 03')).toBeInTheDocument();
   });
 
   it('offers one code button per repository when the project has several', () => {

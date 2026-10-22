@@ -1,4 +1,4 @@
 import '@testing-library/jest-dom/vitest';
 
-// jsdom has no Element.scrollTo, which the carousel calls to move between screens.
-Element.prototype.scrollTo ??= () => {};
+// jsdom has no pointer capture, which the carousel takes while a screen is being dragged.
+Element.prototype.setPointerCapture ??= () => {};
