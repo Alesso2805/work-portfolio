@@ -196,12 +196,169 @@ const willay: CaseStudy = {
     {
       kind: 'image',
       src: {
-        en: '/case-studies/willay-live-map-en.png',
-        es: '/case-studies/willay-live-map-es.png',
+        en: '/case-studies/willay-map-en.png',
+        es: '/case-studies/willay-map-es.png',
       },
       alt: {
-        en: 'Willay’s live map: risk zones along the Rímac colored by their most urgent incident, and stations with their status',
-        es: 'El mapa en vivo de Willay: zonas de riesgo del Rímac coloreadas según su incidente más urgente y estaciones con su estado',
+        en: 'Willay’s live map of the Rímac: the Chosica zone with an open incident, the Santa Eulalia station not reporting, and the list of zones and stations',
+        es: 'El mapa en vivo de Willay sobre el Rímac: la zona Chosica con un incidente abierto, la estación de Santa Eulalia sin reportar y la lista de zonas y estaciones',
+      },
+      caption: {
+        en: {
+          title: 'The live map',
+          body: 'Risk zones along the Rímac, colored by their most urgent incident, and every station with its last value. Here Chosica has an open incident because Santa Eulalia stopped reporting, and the dashboard updated by itself over SSE, with no reload.',
+        },
+        es: {
+          title: 'El mapa en vivo',
+          body: 'Las zonas de riesgo del Rímac, coloreadas según su incidente más urgente, y cada estación con su último valor. Aquí Chosica tiene un incidente abierto porque Santa Eulalia dejó de reportar, y el dashboard se actualizó solo por SSE, sin recargar.',
+        },
+      },
+    },
+    {
+      kind: 'image',
+      src: {
+        en: '/case-studies/willay-inbox-en.png',
+        es: '/case-studies/willay-inbox-es.png',
+      },
+      alt: {
+        en: 'The incident list: Station not reporting at RIM-SEU-01, open at level 1, and Sudden change at RIM-CHA-01, acknowledged at level 2, both critical',
+        es: 'La lista de incidentes: Estación sin reportar en RIM-SEU-01, abierto en el nivel 1, y Cambio brusco en RIM-CHA-01, confirmado en el nivel 2, ambos críticos',
+      },
+      caption: {
+        en: {
+          title: 'Two incidents, one per cause',
+          body: 'The scenario’s two causes: the discharge at Chaclacayo dropped suddenly, and Santa Eulalia went silent. Each cause holds one active incident, even with several evaluators racing, with its severity, its status and the escalation level it has reached.',
+        },
+        es: {
+          title: 'Dos incidentes, uno por causa',
+          body: 'Las dos causas del escenario: el caudal en Chaclacayo cayó de golpe y Santa Eulalia dejó de reportar. Cada causa tiene un solo incidente activo, aunque varios evaluadores compitan, con su severidad, su estado y el nivel de escalamiento al que llegó.',
+        },
+      },
+    },
+    {
+      kind: 'image',
+      src: {
+        en: '/case-studies/willay-incident-en.png',
+        es: '/case-studies/willay-incident-es.png',
+      },
+      alt: {
+        en: 'The Sudden change incident at RIM-CHA-01, acknowledged and critical, with a readings chart where the discharge falls from about 85 to 35 m³/s',
+        es: 'El incidente Cambio brusco en RIM-CHA-01, confirmado y crítico, con un gráfico donde el caudal cae de unos 85 a 35 m³/s',
+      },
+      caption: {
+        en: {
+          title: 'An incident and its readings',
+          body: 'The discharge at Chaclacayo fell by more than 40 m³/s in 10 minutes, so the rule opened a critical incident. The chart marks when it opened and when someone acknowledged it.',
+        },
+        es: {
+          title: 'Un incidente y sus lecturas',
+          body: 'El caudal en Chaclacayo cayó más de 40 m³/s en 10 minutos, así que la regla abrió un incidente crítico. El gráfico marca cuándo se abrió y cuándo alguien lo confirmó.',
+        },
+      },
+    },
+    {
+      kind: 'image',
+      src: {
+        en: '/case-studies/willay-alerts-en.png',
+        es: '/case-studies/willay-alerts-es.png',
+      },
+      alt: {
+        en: 'The incident’s alerts by level: an email to level 1, then email and Telegram to level 2, and one acknowledgement by email',
+        es: 'Las alertas del incidente por nivel: un correo al nivel 1, luego correo y Telegram al nivel 2, y una confirmación por correo',
+      },
+      caption: {
+        en: {
+          title: 'Who was alerted, and how',
+          body: 'Level 1 got an email. Nobody acknowledged within 2 minutes, so level 2 was alerted by email and Telegram, skipped for contacts who had not linked Telegram. Rosa acknowledged from her email, and that stopped the escalation for everyone.',
+        },
+        es: {
+          title: 'A quién se alertó, y cómo',
+          body: 'El nivel 1 recibió un correo. Nadie confirmó en 2 minutos, así que se alertó al nivel 2 por correo y Telegram, omitido para quien no lo había vinculado. Rosa confirmó desde su correo, y eso detuvo el escalamiento para todos.',
+        },
+      },
+    },
+    {
+      kind: 'image',
+      src: {
+        en: '/case-studies/willay-email.png',
+        es: '/case-studies/willay-email.png',
+      },
+      alt: {
+        en: 'A critical alert email, in Spanish, in the demo’s mailbox: Station not reporting in Chosica (RIM-SEU-01), with its last value and a link to acknowledge',
+        es: 'Un correo de alerta crítica en el buzón de la demo: Estación sin reportar en Chosica (RIM-SEU-01), con su último valor y un enlace para confirmar',
+      },
+      caption: {
+        en: {
+          title: 'The alert email',
+          body: 'Each contact gets it in their own language — here, Spanish — with the cause, the station, the last value and a link to acknowledge. The link opens a page with a Confirm button, so a mail scanner cannot acknowledge just by following it.',
+        },
+        es: {
+          title: 'El correo de alerta',
+          body: 'Cada contacto lo recibe en su idioma — aquí, español — con la causa, la estación, el último valor y un enlace para confirmar. El enlace abre una página con un botón Confirmar, para que un escáner de correo no pueda confirmar con solo seguirlo.',
+        },
+      },
+    },
+    {
+      kind: 'image',
+      src: {
+        en: '/case-studies/willay-timeline-en.png',
+        es: '/case-studies/willay-timeline-es.png',
+      },
+      alt: {
+        en: 'The incident’s summary, acknowledged by Rosa Brigada, beside its timeline: opened, alerted at level 1, worse readings, escalated to level 2',
+        es: 'El resumen del incidente, confirmado por Rosa Brigada, junto a su línea de tiempo: abierto, alerta al nivel 1, lecturas peores, escalado al nivel 2',
+      },
+      caption: {
+        en: {
+          title: 'A record that cannot be edited',
+          body: 'The timeline: opened by the rule, alerted at level 1, worse readings, escalated to level 2 after 120 s without an answer. It is append-only at the database permission level and outlives the readings, for the review afterwards.',
+        },
+        es: {
+          title: 'Un registro que no se puede editar',
+          body: 'La línea de tiempo: la regla lo abre, se alerta al nivel 1, llegan lecturas peores y escala al nivel 2 tras 120 s sin respuesta. Solo admite agregar, por permisos de la base de datos, y sobrevive a las lecturas, para la revisión posterior.',
+        },
+      },
+    },
+    {
+      kind: 'image',
+      src: {
+        en: '/case-studies/willay-rule-en.png',
+        es: '/case-studies/willay-rule-es.png',
+      },
+      alt: {
+        en: 'Editing the Sudden change rule: a drop of more than 40 m³/s within 10 minutes, with a 24-hour preview that would have opened 1 incident',
+        es: 'Editando la regla de cambio brusco: una caída de más de 40 m³/s en 10 minutos, con una vista previa de 24 horas que habría abierto 1 incidente',
+      },
+      caption: {
+        en: {
+          title: 'A rule, tried on real data',
+          body: 'Rules are plain conditions — here, a drop of more than 40 m³/s within 10 minutes. Before saving, the 24-hour preview marks where the rule would have opened an incident with the readings that actually arrived.',
+        },
+        es: {
+          title: 'Una regla, probada con datos reales',
+          body: 'Las reglas son condiciones simples — aquí, una caída de más de 40 m³/s en 10 minutos. Antes de guardar, la vista previa de 24 horas marca dónde la regla habría abierto un incidente con las lecturas que de verdad llegaron.',
+        },
+      },
+    },
+    {
+      kind: 'image',
+      src: {
+        en: '/case-studies/willay-policy-en.png',
+        es: '/case-studies/willay-policy-es.png',
+      },
+      alt: {
+        en: 'The Protocolo Rímac escalation policy: three levels of contact groups, by email and Telegram, each with its waiting time',
+        es: 'La política de escalamiento Protocolo Rímac: tres niveles de grupos de contactos, por correo y Telegram, cada uno con su tiempo de espera',
+      },
+      caption: {
+        en: {
+          title: 'Escalation by levels',
+          body: 'Each level alerts contact groups by their channels, then waits: 2 minutes for level 1, 3 for level 2, 5 for level 3. When the last level runs out, the incident turns red on every dashboard.',
+        },
+        es: {
+          title: 'Escalamiento por niveles',
+          body: 'Cada nivel alerta a grupos de contactos por sus canales y espera: 2 minutos el nivel 1, 3 el nivel 2 y 5 el nivel 3. Cuando se agota el último nivel, el incidente se pone en rojo en todos los dashboards.',
+        },
       },
     },
   ],
