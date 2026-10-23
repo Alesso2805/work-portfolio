@@ -6,6 +6,8 @@ import {
   parseStack,
   projectHref,
   type StackFilter,
+  spotlightLimit,
+  spotlightProjects,
   stackFilters,
 } from './projects';
 
@@ -43,6 +45,20 @@ describe('projects content', () => {
   it('has no repeated slugs', () => {
     const slugs = projects.map((p) => p.slug);
     expect(new Set(slugs).size).toBe(slugs.length);
+  });
+
+  it('puts between 1 and spotlightLimit projects on the home rail', () => {
+    const marked = projects.filter((p) => p.spotlight);
+    expect(marked.length).toBeGreaterThan(0);
+    expect(marked.length).toBeLessThanOrEqual(spotlightLimit);
+  });
+
+  it('never puts more than spotlightLimit projects on the rail, in home order', () => {
+    const many = Array.from({ length: spotlightLimit + 3 }, (_, i) => ({
+      name: `P${i}`,
+      spotlight: true,
+    }));
+    expect(spotlightProjects(many)).toEqual(many.slice(0, spotlightLimit));
   });
 
   it('numbers projects 01, 02… in order', () => {

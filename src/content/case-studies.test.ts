@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { generateStaticParams } from '@/app/[locale]/projects/[slug]/page';
 import { locales } from '@/i18n/config';
-import { caseStudies } from './case-studies';
+import { caseStudies, getCaseStudy } from './case-studies';
 import { projects } from './projects';
 
 /** Structural fingerprint: keys and array lengths, ignoring the text itself. */
@@ -31,6 +31,14 @@ describe('case studies', () => {
   it('every case study belongs to a project', () => {
     for (const study of caseStudies) {
       expect(projects.some((p) => p.caseStudySlug === study.slug)).toBe(true);
+    }
+  });
+
+  it('every project highlight starts with its case study metric', () => {
+    for (const project of projects) {
+      const study = project.caseStudySlug ? getCaseStudy(project.caseStudySlug) : undefined;
+      if (!project.highlight || !study) continue;
+      expect(project.highlight.value.startsWith(study.metric)).toBe(true);
     }
   });
 

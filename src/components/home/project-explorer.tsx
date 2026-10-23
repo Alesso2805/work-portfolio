@@ -3,6 +3,7 @@
 import { type ReactNode, useEffect, useState } from 'react';
 import { toolbelt } from '@/content/projects';
 import { cn } from '@/lib/cn';
+import { canAnimate, ScrollTrigger } from '@/lib/gsap';
 import {
   countByStack,
   filterProjects,
@@ -27,7 +28,7 @@ function writeStackToUrl(filter: StackFilter) {
 }
 
 /**
- * The home page's stateful component: language filter, toolbelt line and project list.
+ * The home page's stateful component: language filter, toolbelt line and the list of every project.
  * The filter lives in `?stack=` so a filtered view can be shared. Prerendered as "All".
  */
 export function ProjectExplorer({
@@ -53,6 +54,12 @@ export function ProjectExplorer({
     window.addEventListener('popstate', sync);
     return () => window.removeEventListener('popstate', sync);
   }, []);
+
+  // The list's height changes with the filter, and the experience deck below pins at measured positions.
+  // biome-ignore lint/correctness/useExhaustiveDependencies: runs after each filter change; it reads the layout, not the value
+  useEffect(() => {
+    if (canAnimate()) ScrollTrigger.refresh();
+  }, [filter]);
 
   const select = (next: StackFilter) => {
     setFilter(next);

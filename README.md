@@ -18,8 +18,9 @@ A bilingual (EN / ES) static site with light and dark themes, built from a fixed
 - **Lighthouse 95–98 / 100 / 100 / 100** (Performance, Accessibility, Best Practices, SEO) on mobile, measured on the live site
 - **WCAG 2.1 AA:** keyboard-only usable, skip link, real buttons with `aria-pressed`, contrast ≥ 4.5:1 in both themes, `prefers-reduced-motion` respected
 - **Hand-built i18n and theming:** typed EN/ES dictionaries (a missing key is a compile error) and a theme with no flash on load. No libraries for either
-- **Minimal client JavaScript:** only the project filter, the theme toggle and the `/` redirect run in the browser; everything else is prerendered
-- **Tested and checked in CI:** 35 Vitest tests, plus Biome lint, a strict typecheck and a production build on every push
+- **Motion with GSAP that degrades cleanly:** the projects ride a rail that the page scroll or a mouse drag moves sideways, and the experience cards stack. Every animation runs inside `gsap.matchMedia()`: under reduced motion, on phones (for the rail) and without JS, the prerendered HTML is the final state
+- **Client JavaScript only where something moves or changes:** the project filter and rail, the experience deck, the theme toggle, the case study carousel and the `/` redirect; everything else is prerendered
+- **Tested and checked in CI:** 47 Vitest tests, plus Biome lint, a strict typecheck and a production build on every push
 
 ## Stack
 
@@ -27,10 +28,11 @@ A bilingual (EN / ES) static site with light and dark themes, built from a fixed
 - **TypeScript** in strict mode (`noUncheckedIndexedAccess` on)
 - **Tailwind CSS 4**, mapped to CSS design tokens. The default palette, radii and shadows are removed, so only the tokens can be used
 - **Archivo** and **IBM Plex Mono** via `next/font` (self-hosted)
+- **GSAP 3.15** (ScrollTrigger, Draggable, Inertia) with `@gsap/react`, for the home page's motion
 - **Biome** for linting and formatting; **Vitest** + **Testing Library** for tests
 - **pnpm**; deployed on **Netlify**; CI on **GitHub Actions**
 
-No UI, i18n or theme libraries. React and Next.js are the only runtime dependencies.
+No UI, i18n or theme libraries. React, Next.js and GSAP are the only runtime dependencies.
 
 ## Getting started
 
@@ -75,7 +77,7 @@ src/
     global-not-found.tsx 404 for every unmatched URL
     sitemap.ts, robots.ts, favicon.ico, icon.png, apple-icon.png
     globals.css          design tokens + Tailwind theme mapping
-  components/            Server Components; only ThemeToggle, ProjectExplorer and CaseStudyCarousel run on the client
+  components/            Server Components; only ThemeToggle, ProjectExplorer, ProjectRail, ExperienceDeck and CaseStudyCarousel run on the client
   config/site.ts         email, GitHub, LinkedIn, paper, CV per locale, public URL
   content/
     projects.ts          every project shown on the home page
@@ -102,9 +104,11 @@ Edit `src/content/projects.ts`. Components never need to change.
   number: '05',                  // order on the home page
   name: 'My Project',
   featured: false,               // true shows the orange thesis tag
+  spotlight: true,               // optional: one of the panels on the home rail (at most 4, a test checks it)
   languages: ['python', 'sql'],  // drives the filter and its counts
   languagesLabel: 'Python · SQL',
   description: { en: '…', es: '…' },
+  highlight: { value: '12 ms', label: { en: '…', es: '…' } },  // optional: the figure on its panel; starts with the case study's metric (a test checks it)
   repoUrl: 'https://github.com/Alesso2805/my-project',  // optional
   repos: [{ url: '…', label: { en: 'View the API code ↗', es: '…' } }],  // optional, for several repos
   demoUrl: 'https://…',          // optional
@@ -112,7 +116,7 @@ Edit `src/content/projects.ts`. Components never need to change.
 }
 ```
 
-A row links to its case study if it has `caseStudySlug`, otherwise to `repoUrl`, otherwise it is not a link. The filter languages are `python`, `ts`, `csharp` and `sql`. The tools line under the filter is in `toolbelt` in the same file.
+Its row in the list, and its panel on the rail if it has one, link to its case study if it has `caseStudySlug`, otherwise to `repoUrl`, otherwise they are not links. The panel's picture is the first image in its case study's `media`; without one, the panel shows the project's name in its place. The filter languages are `python`, `ts`, `csharp` and `sql`. The tools line under the filter is in `toolbelt` in the same file.
 
 ### Add a case study
 
@@ -164,9 +168,13 @@ The sources are `scripts/assets/og.html` and `scripts/assets/icon.html`. After e
 
 - **Theme.** `data-theme` on `<html>` switches the CSS variables. A small inline script in `<head>` applies the stored choice, or the system preference, before first paint, so the page never flashes. The toggle stores the choice in `localStorage`; until then the site follows OS changes live. Without JS, a `prefers-color-scheme` media query takes over.
 - **i18n.** `/[locale]` is a root layout, so `<html lang>` is correct in the static HTML. Each page has a canonical URL plus `hreflang` alternates (in the `<head>` and in the sitemap). EN|ES are plain links to the same page in the other language.
-- **Project filter.** `ProjectExplorer` keeps the home page's only state. The filter is mirrored in `?stack=` (e.g. `/en?stack=python`) so a filtered view can be shared. The HTML is prerendered with every project visible, so the list also works without JS.
+- **Project filter.** `ProjectExplorer` keeps the home page's only state: the filter on the list of every project, under the rail. The filter is mirrored in `?stack=` (e.g. `/en?stack=python`) so a filtered view can be shared. The HTML is prerendered with every project visible, so the list also works without JS. After each change it asks ScrollTrigger to measure again, because the list's height moves the experience deck below.
 - **Case study carousel.** `CaseStudyCarousel` holds which screen is shown. It is prerendered as a strip that scrolls sideways, so every screen is reachable without JS. Once hydrated, it becomes a track moved by `transform`: the buttons, and a drag with any pointer (mouse, finger or pen), which follows the pointer and springs back when it is too short. A copy of the last screen sits before the first and a copy of the first after the last. The track glides onto a copy, then jumps without a glide to the screen it shows, so the loop never ends and never rewinds. A click or drag in the middle of a glide ends it first, so no input is lost. A screen reader hears the title of each new screen and never reaches the copies (`aria-hidden`, `inert`). Under reduced motion there is no glide, and the loop jumps straight to the screen. Its buttons are invisible until hydration but keep their space, so the page does not shift.
-- **Client JavaScript** is limited to the filter, the theme toggle, the case study carousel and the `/` redirect. Everything else is a Server Component rendered at build time.
+- **Hero entrance.** The D1 prototype's timeline: the name's letters rise one by one out of their line, the line under it follows, the buttons fade up, the stat chips wipe up and their figures count from 0. It is plain CSS (`animate-rise`, `animate-fade-up`, `animate-wipe-up`, `animate-count` in `globals.css`), not GSAP, so it starts with the first paint: the name never shows, vanishes on hydration and comes back, and the largest paint is not held back for JavaScript. The letters are split on the server and hidden from screen readers, which read the name whole from a visually hidden copy. The figures count through a registered integer property (`@property --count`) printed by a CSS counter, at a fixed width so the chips never move; the real number stays in the text. Under reduced motion it is all at rest from the start.
+- **Project rail.** `ProjectRail` shows one panel per project. On screens 1024px and wider, without reduced motion, it is prerendered as a strip that scrolls sideways, so every panel is reachable without JS. Once hydrated, GSAP pins it and the page's own scroll moves the panels sideways (ScrollTrigger with `scrub`). Inside, each panel's title rises, its figure counts up and its screenshot slides a little, all through `containerAnimation`. A mouse drag moves an invisible Draggable proxy whose distance becomes page scroll, with inertia, so dragging and scrolling are always the same position. Tabbing to a link in a panel off to the side scrolls the page to that panel. Only the projects marked `spotlight` are on it, at most 4 (`spotlightLimit`): each panel adds about a screen of pinned scroll, so the rail stays the same length however many projects there are, and the list below has them all. Panels that already fit (one or two) leave the rail off. On phones, tablets and under reduced motion the panels are a vertical list.
+- **Experience deck.** `ExperienceDeck` pins each card near the top while the next one slides over it, and the covered card scales back a little. Prerendered, and under reduced motion kept, as a plain list.
+- **GSAP setup.** `src/lib/gsap.ts` registers the plugins once, only where `matchMedia` exists (not on the server or in jsdom, so the tests never animate). Each component animates inside `useGSAP`, which reverts everything when it unmounts or, for the rail, when the filter changes.
+- **Client JavaScript** is limited to the filter and the project rail, the experience deck, the theme toggle, the case study carousel and the `/` redirect. Everything else is a Server Component rendered at build time.
 - **Netlify head comment.** On `*.netlify.app`, Netlify injects an HTML comment into `<head>`. React counts it as a hydration mismatch (error #418), re-renders the whole document on the client and drops the theme. A tiny inline script (`src/lib/head-cleanup.ts`) removes comment and blank nodes from `<head>` before hydration.
 
 ## Quality
@@ -204,6 +212,7 @@ The visual design was approved before any code was written, and the build follow
 - **Hero H1** minimum size is **58px** instead of 64px, so "Alessandro" fits a 360px screen without horizontal scroll.
 - **The EN|ES switch** uses links (with `aria-current`) instead of buttons, so it works without JS and is crawlable.
 - **Weight 700.** The design uses `font-weight: 700` in a few places but does not load it, so the browser renders those at 800. Loaded weights match the reference exactly: 400, 500, 600, 800 and 900.
+- **Motion (October 2026).** The home page follows direction D5 of five GSAP prototypes: the orange stats block became chips under the name, the project list became panels on a rail, and the experience list became stacking cards. With more projects coming, the rail shows at most 4 chosen ones and every project is in a compact list under it, which holds the filter. Panels, cards and chips use one new token, `--surface`, at 5.05:1 or more against every text color in both themes.
 
 ## Pending
 
@@ -213,4 +222,5 @@ The visual design was approved before any code was written, and the build follow
 - [ ] Confirm the exact **paper title** and its **DOI** (then add the DOI to the `ScholarlyArticle` JSON-LD)
 - [ ] Final **domain**: set `NEXT_PUBLIC_SITE_URL` if it is not the Netlify URL
 - [ ] Link the GitHub repo in Netlify for continuous deployment (see *Deploy*)
-- [ ] Re-check with PageSpeed Insights (the anonymous API quota was exhausted when the site was first measured)
+- [ ] Re-check with PageSpeed Insights (the anonymous API quota was exhausted when the site was first measured), now with GSAP on the home page
+- [ ] New README screenshots of the home page: the current ones show it before the rail

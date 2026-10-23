@@ -1,5 +1,15 @@
 import { site } from '@/config/site';
 import type { Dictionary } from '@/i18n';
+import { cn } from '@/lib/cn';
+import { ExperienceDeck } from './experience-deck';
+
+/** Card colors, in order. */
+const faces = [
+  'bg-surface text-ink',
+  'bg-ink text-bg',
+  'bg-accent text-on-accent',
+  'bg-ink text-bg',
+] as const;
 
 export function Experience({ dict }: { dict: Dictionary }) {
   const { experience } = dict;
@@ -7,22 +17,31 @@ export function Experience({ dict }: { dict: Dictionary }) {
   return (
     <section id="experience" className="pb-[clamp(48px,6vw,80px)]">
       <h2 className="mb-7 text-section">{experience.title}</h2>
-      <ul className="border-rule border-t-2">
-        {experience.items.map((item) => (
-          <li
-            key={item.dates}
-            className="flex flex-wrap gap-x-8 gap-y-2 border-rule border-b py-[22px]"
-          >
-            <span className="flex-[1_1_200px] font-mono text-[14px] text-muted">{item.dates}</span>
-            <span className="flex-[2_1_320px] font-bold text-[22px]">{item.role}</span>
-            <span className="flex-[2_1_320px] text-soft">{item.summary}</span>
+      <ExperienceDeck>
+        {experience.items.map((item, i) => (
+          <li key={item.dates} data-deck-card className="relative">
+            <div
+              data-deck-face
+              className={cn(
+                'grid min-h-[240px] origin-top gap-x-8 gap-y-3 p-[clamp(24px,3.5vw,44px)] md:grid-cols-[220px_minmax(0,1fr)]',
+                faces[i % faces.length],
+              )}
+            >
+              <span className="font-mono text-[14px]">{item.dates}</span>
+              <div>
+                <h3 className="font-black text-[clamp(28px,3.4vw,44px)] leading-none tracking-[-0.035em]">
+                  {item.role}
+                </h3>
+                <p className="mt-3.5 max-w-[52ch] text-[19px] leading-[1.45]">{item.summary}</p>
+              </div>
+            </div>
           </li>
         ))}
-      </ul>
+      </ExperienceDeck>
 
       <a
         href={site.paper.url}
-        className="flex flex-wrap items-baseline gap-x-8 gap-y-2 border-rule border-b py-[22px] no-underline"
+        className="mt-10 flex flex-wrap items-baseline gap-x-8 gap-y-2 border-rule border-y py-[22px] no-underline"
       >
         <span className="flex-[1_1_200px] font-mono text-[14px] text-muted">
           {experience.publicationLabel}
