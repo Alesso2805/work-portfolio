@@ -89,6 +89,7 @@ export const projects: readonly Project[] = [
       es: 'Middleware de detección de amenazas para FastAPI — rate limiting, credential stuffing detectado por cuenta, refresh tokens de un solo uso y un registro de auditoría privado. Redis, PostgreSQL.',
     },
     repoUrl: 'https://github.com/Alesso2805/sentinelapi',
+    demoUrl: 'https://sentinelaapi.duckdns.org',
     caseStudySlug: 'sentinelapi',
   },
 ];
