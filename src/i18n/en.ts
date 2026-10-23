@@ -26,11 +26,14 @@ export const en: Dictionary = {
   },
   work: {
     title: '01 — Work',
+    allProjects: 'All projects',
     filterLabel: 'Filter projects by language',
     all: 'All',
     thesisTag: 'thesis · 44/44 tests',
     practices: 'Practices',
     toolsFor: 'Tools',
+    open: 'View project',
+    railHint: 'Scroll or drag →',
   },
   experience: {
     title: '02 — Experience',

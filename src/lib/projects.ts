@@ -5,6 +5,16 @@ export type StackFilter = 'all' | Lang;
 
 export const stackFilters: readonly StackFilter[] = ['all', ...langs];
 
+/**
+ * How many projects the home rail shows. Each panel adds about a screen of pinned scroll,
+ * so the rail stays this short however many projects there are; the list below has them all.
+ */
+export const spotlightLimit = 4;
+
+export function spotlightProjects<P extends Pick<Project, 'spotlight'>>(items: readonly P[]): P[] {
+  return items.filter((p) => p.spotlight).slice(0, spotlightLimit);
+}
+
 /** Reads `?stack=` — anything unknown falls back to 'all'. */
 export function parseStack(value: string | null | undefined): StackFilter {
   return stackFilters.find((filter) => filter === value) ?? 'all';
@@ -43,6 +53,10 @@ export interface ProjectRowData {
   languagesLabel: string;
   description: string;
   href?: string;
+  /** The panel's figure, already in this locale. */
+  highlight?: { value: string; label: string };
+  /** The panel's image: the first screen of the case study. Resolved on the server (see project-cover.ts). */
+  cover?: { src: string; alt: string };
 }
 
 export function toRowData(project: Project, locale: Locale): ProjectRowData {
@@ -56,5 +70,8 @@ export function toRowData(project: Project, locale: Locale): ProjectRowData {
     languagesLabel: project.languagesLabel,
     description: project.description[locale],
     ...(href ? { href } : {}),
+    ...(project.highlight
+      ? { highlight: { value: project.highlight.value, label: project.highlight.label[locale] } }
+      : {}),
   };
 }

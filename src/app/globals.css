@@ -14,6 +14,7 @@
   --accent: #ff4f00; /* orange blocks and tags */
   --hover: #b83800; /* link hover */
   --on-accent: #0a0a0a; /* text on --accent, identical in both themes */
+  --surface: #efefeb; /* project panels, experience cards, stat chips */
   color-scheme: light;
 }
 
@@ -25,6 +26,7 @@
   --rule: #f2f2ef;
   --accent: #ff5a1f;
   --hover: #ff8a5c;
+  --surface: #1c1c1f;
   color-scheme: dark;
 }
 
@@ -38,6 +40,7 @@
     --rule: #f2f2ef;
     --accent: #ff5a1f;
     --hover: #ff8a5c;
+    --surface: #1c1c1f;
     color-scheme: dark;
   }
 }
@@ -58,6 +61,7 @@
   --color-accent: var(--accent);
   --color-hover: var(--hover);
   --color-on-accent: var(--on-accent);
+  --color-surface: var(--surface);
   --color-transparent: transparent;
   --color-current: currentColor;
 
@@ -95,6 +99,65 @@
   /* Body */
   --text-body: 17px;
   --text-body--line-height: 1.55;
+}
+
+/*
+ * Hero entrance: the D1 prototype's GSAP timeline, rebuilt in plain CSS so it runs with the first paint.
+ * As GSAP it could only start after hydration: the name would show, vanish and come back, and the
+ * largest text would wait for JavaScript. Used only behind `motion-safe:`; each piece sets its own delay.
+ */
+@theme {
+  --animate-rise: rise 1.1s cubic-bezier(0.16, 1, 0.3, 1) both; /* expo.out */
+  --animate-fade-up: fade-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-wipe-up: wipe-up 1.1s cubic-bezier(0.87, 0, 0.13, 1) both; /* expo.inOut */
+  --animate-count: count 1.4s cubic-bezier(0.33, 1, 0.68, 1) both; /* power2.out */
+
+  @keyframes rise {
+    from {
+      transform: translateY(118%);
+    }
+  }
+
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+  }
+
+  /* Both ends explicit: an inset() cannot interpolate to the resting `none`. */
+  @keyframes wipe-up {
+    from {
+      clip-path: inset(100% 0 0 0);
+    }
+    to {
+      clip-path: inset(0 0 0 0);
+    }
+  }
+
+  @keyframes count {
+    from {
+      --count: 0;
+    }
+  }
+}
+
+/*
+ * The stat figures count up from 0. CSS can animate --count because it is a registered integer,
+ * and a counter prints it. Without the animation (reduced motion) it prints the final value.
+ */
+@property --count {
+  syntax: "<integer>";
+  inherits: false;
+  initial-value: 0;
+}
+
+@utility count-up {
+  counter-reset: stat var(--count);
+
+  &::before {
+    content: counter(stat);
+  }
 }
 
 @utility px-gutter {

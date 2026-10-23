@@ -28,11 +28,17 @@ export interface Dictionary {
   };
   work: {
     title: string;
+    /** Heading of the full, filterable list under the rail. */
+    allProjects: string;
     filterLabel: string;
     all: string;
     thesisTag: string;
     practices: string;
     toolsFor: string;
+    /** Link on each project panel; screen readers hear the project's name after it. */
+    open: string;
+    /** Above the project rail on wide screens: how to move it. */
+    railHint: string;
   };
   experience: {
     title: string;
