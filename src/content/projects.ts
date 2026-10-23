@@ -11,10 +11,14 @@ export interface Project {
   name: string;
   /** Shows the orange thesis tag. */
   featured: boolean;
+  /** One of the panels on the home rail, in home order. At most `spotlightLimit` (a test checks it). */
+  spotlight?: boolean;
   languages: Lang[];
   /** e.g. 'C# · TypeScript · SQL' */
   languagesLabel: string;
   description: Record<Locale, string>;
+  /** The figure on the project's home panel. `value` starts with the case study's `metric` (a test checks it). */
+  highlight?: { value: string; label: Record<Locale, string> };
   repoUrl?: string;
   /** More than one repository (e.g. an API and its web app): the case study shows one labeled button each instead of "View the code". */
   repos?: ReadonlyArray<{ url: string; label: Record<Locale, string> }>;
@@ -29,11 +33,19 @@ export const projects: readonly Project[] = [
     number: '01',
     name: 'GenAIrator',
     featured: true,
+    spotlight: true,
     languages: ['csharp', 'ts', 'sql'],
     languagesLabel: 'C# · TypeScript · SQL',
     description: {
       en: 'Generates fullstack projects — Angular + .NET — from a design system and functional requirements, with quality and accessibility gates.',
       es: 'Genera proyectos fullstack — Angular + .NET — a partir de un design system y requisitos funcionales, con controles de calidad y accesibilidad.',
+    },
+    highlight: {
+      value: '44/44',
+      label: {
+        en: 'software test cases passed',
+        es: 'casos de prueba de software aprobados',
+      },
     },
     caseStudySlug: 'genairator',
   },
@@ -42,11 +54,19 @@ export const projects: readonly Project[] = [
     number: '02',
     name: 'Willay',
     featured: false,
+    spotlight: true,
     languages: ['python', 'ts', 'sql'],
     languagesLabel: 'Python · TypeScript · SQL',
     description: {
       en: 'Early warning for floods and debris flows — rules, incidents and alerts that escalate until someone acknowledges. FastAPI workers, PostgreSQL as the queue, Keycloak.',
       es: 'Alerta temprana de inundaciones y huaicos — reglas, incidentes y alertas que escalan hasta que alguien confirma. Workers FastAPI, PostgreSQL como cola, Keycloak.',
+    },
+    highlight: {
+      value: '500 ms',
+      label: {
+        en: 'p95 from a reading to its first alert, under load (target: 30 s)',
+        es: 'p95 desde la lectura hasta la primera alerta, bajo carga (meta: 30 s)',
+      },
     },
     repoUrl: 'https://github.com/Alesso2805/willay',
     demoUrl: 'https://willay.duckdns.org',
@@ -57,11 +77,19 @@ export const projects: readonly Project[] = [
     number: '03',
     name: 'VeriLedger',
     featured: false,
+    spotlight: true,
     languages: ['python', 'ts', 'sql'],
     languagesLabel: 'Python · TypeScript · SQL',
     description: {
       en: 'A verifiable ledger you can try in the browser — Ed25519 transfers and notarizations signed in the tab, Proof-of-Work blocks, peers that adopt only a fully valid chain. FastAPI, PostgreSQL, React.',
       es: 'Un ledger verificable que se prueba en el navegador — transferencias y notarizaciones Ed25519 firmadas en la pestaña, bloques con Proof of Work, peers que solo adoptan una cadena válida. FastAPI, PostgreSQL, React.',
+    },
+    highlight: {
+      value: '9/9',
+      label: {
+        en: 'blocking issues an audit found in the first API, all fixed',
+        es: 'problemas bloqueantes que una auditoría encontró en la primera API, todos resueltos',
+      },
     },
     repoUrl: 'https://github.com/Alesso2805/veriledger-api',
     repos: [
@@ -82,11 +110,19 @@ export const projects: readonly Project[] = [
     number: '04',
     name: 'SentinelAPI',
     featured: false,
+    spotlight: true,
     languages: ['python', 'sql'],
     languagesLabel: 'Python · SQL',
     description: {
       en: 'Threat-detection middleware for FastAPI — rate limiting, credential stuffing caught per account, single-use refresh tokens, and a private audit trail. Redis, PostgreSQL.',
       es: 'Middleware de detección de amenazas para FastAPI — rate limiting, credential stuffing detectado por cuenta, refresh tokens de un solo uso y un registro de auditoría privado. Redis, PostgreSQL.',
+    },
+    highlight: {
+      value: '24/24',
+      label: {
+        en: 'issues an audit found in the prototype, all fixed',
+        es: 'problemas que una auditoría encontró en el prototipo, todos resueltos',
+      },
     },
     repoUrl: 'https://github.com/Alesso2805/sentinelapi',
     demoUrl: 'https://sentinelaapi.duckdns.org',
