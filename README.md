@@ -128,9 +128,9 @@ The optional fields hide their block while they are empty:
 | `media` | the 16:9 media box is hidden |
 | a screen's `caption` | the screen is shown without text under it |
 
-`media` is a list of screens, each `{ kind: 'image' | 'video', src: { en, es }, alt: { en, es }, caption?: { en: { title, body }, es: { title, body } } }`, with the files in `public/` (e.g. `public/case-studies/willay-map-en.png` → `src.en: '/case-studies/willay-map-en.png'`). `src` is per locale so a screen of the product shows the page's language; an image without text, or one that is the same in both languages (Willay's alert email, in an English-only mail viewer), repeats the same path. The box is 16:9 and crops anything else from the center, so capture or crop at 16:9 to choose what stays.
+`media` is a list of screens, each `{ kind: 'image' | 'video', src: { en, es }, alt: { en, es }, caption?: { en: { title, body }, es: { title, body } } }`, with the files in `public/` (e.g. `public/case-studies/willay-map-en.png` → `src.en: '/case-studies/willay-map-en.png'`). `src` is per locale so a screen of the product shows the page's language; an image without text, or one that is the same in both languages (Willay's alert email, in an English-only mail viewer; SentinelAPI's attack console, which is in English only), repeats the same path. The box is 16:9 and crops anything else from the center, so capture or crop at 16:9 to choose what stays.
 
-One screen is a plain figure. Several become a carousel (Willay and VeriLedger): one screen at a time, with its caption under it, moved by ← → buttons or by dragging it with the mouse or a finger, never by itself. It loops: after the last screen comes the first, and before the first the last. The caption is for a reader who has never used the product: a short title, then what the screen shows and why it matters. Without JS the screens are a strip that scrolls sideways.
+One screen is a plain figure. Several become a carousel (Willay, VeriLedger and SentinelAPI): one screen at a time, with its caption under it, moved by ← → buttons or by dragging it with the mouse or a finger, never by itself. It loops: after the last screen comes the first, and before the first the last. The caption is for a reader who has never used the product: a short title, then what the screen shows and why it matters. Without JS the screens are a strip that scrolls sideways.
 
 The results block shows `metric` in orange, then `results.cards`: `{ title, body, href? }`, where a card with `href` is a link with ↗. Under it, "View the code" uses the project's `repoUrl` (the GitHub profile without one), and "Try the live demo" appears only when the project has a `demoUrl`. A project with several repositories (VeriLedger: its API and its web app) lists them in `repos`, and the case study shows one button per repository, with its own label, instead of "View the code".
 
@@ -207,8 +207,6 @@ The visual design was approved before any code was written, and the build follow
 
 ## Pending
 
-- [ ] Make **github.com/Alesso2805/willay** public: it is still private, so Willay's "View the code" leads to a 404 until then
-- [ ] `repoUrl` and `demoUrl` for **SentinelAPI** (its row is not a link until then)
 - [ ] Where to show `demoUrl` for a project without a case study (today it only appears as a button on case study pages)
 - [ ] GenAIrator `repoUrl`; "View the code" points to the GitHub profile until then
 - [ ] GenAIrator case study: **role**, **problem paragraph** (`problemBody`) and **screenshot / video**
