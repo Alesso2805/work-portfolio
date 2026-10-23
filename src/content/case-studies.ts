@@ -926,18 +926,16 @@ const veriledger: CaseStudy = {
   },
 };
 
-/** The console is in English only, so each screen is the same file in both languages. */
-function sameScreen(file: string): Record<Locale, string> {
-  return { en: `/case-studies/${file}`, es: `/case-studies/${file}` };
-}
-
 const sentinelapi: CaseStudy = {
   slug: 'sentinelapi',
   metric: '24/24',
   media: [
     {
       kind: 'image',
-      src: sameScreen('sentinelapi-console.png'),
+      src: {
+        en: '/case-studies/sentinelapi-console-en.png',
+        es: '/case-studies/sentinelapi-console-es.png',
+      },
       alt: {
         en: 'The attack console: three attacks, a burst, credential stuffing and a token replay, each with its button',
         es: 'La consola de ataques: tres ataques, una ráfaga, credential stuffing y un replay de token, cada uno con su botón',
@@ -955,7 +953,10 @@ const sentinelapi: CaseStudy = {
     },
     {
       kind: 'image',
-      src: sameScreen('sentinelapi-stuffing.png'),
+      src: {
+        en: '/case-studies/sentinelapi-stuffing-en.png',
+        es: '/case-studies/sentinelapi-stuffing-es.png',
+      },
       alt: {
         en: 'Credential stuffing: seven wrong passwords from seven addresses are rejected, and the eighth, from another address, is blocked',
         es: 'Credential stuffing: siete contraseñas incorrectas desde siete direcciones se rechazan, y la octava, desde otra dirección, se bloquea',
@@ -973,7 +974,10 @@ const sentinelapi: CaseStudy = {
     },
     {
       kind: 'image',
-      src: sameScreen('sentinelapi-critical.png'),
+      src: {
+        en: '/case-studies/sentinelapi-critical-en.png',
+        es: '/case-studies/sentinelapi-critical-es.png',
+      },
       alt: {
         en: 'The attack goes on after the lock: attempts 9 to 14 are HIGH, and from the 15th they are CRITICAL',
         es: 'El ataque sigue tras el bloqueo: los intentos 9 a 14 son HIGH y desde el 15.º son CRITICAL',
@@ -991,7 +995,10 @@ const sentinelapi: CaseStudy = {
     },
     {
       kind: 'image',
-      src: sameScreen('sentinelapi-burst.png'),
+      src: {
+        en: '/case-studies/sentinelapi-burst-en.png',
+        es: '/case-studies/sentinelapi-burst-es.png',
+      },
       alt: {
         en: 'The burst: requests 52 to 60 allowed, and the 61st and every one after it blocked with 429',
         es: 'La ráfaga: las peticiones 52 a 60 se permiten, y la 61 y todas las siguientes se bloquean con 429',
@@ -1009,7 +1016,10 @@ const sentinelapi: CaseStudy = {
     },
     {
       kind: 'image',
-      src: sameScreen('sentinelapi-replay.png'),
+      src: {
+        en: '/case-studies/sentinelapi-replay-en.png',
+        es: '/case-studies/sentinelapi-replay-es.png',
+      },
       alt: {
         en: 'The replay: the owner logs in and rotates the refresh token, the stolen copy gets 403 and a forged token 401',
         es: 'El replay: el dueño inicia sesión y rota el refresh token, la copia robada recibe 403 y un token falsificado 401',
@@ -1027,7 +1037,10 @@ const sentinelapi: CaseStudy = {
     },
     {
       kind: 'image',
-      src: sameScreen('sentinelapi-audit.png'),
+      src: {
+        en: '/case-studies/sentinelapi-audit-en.png',
+        es: '/case-studies/sentinelapi-audit-es.png',
+      },
       alt: {
         en: 'The live audit trail: brute-force events, HIGH up to the 14th attempt and CRITICAL from the 15th',
         es: 'El registro de auditoría en vivo: eventos de fuerza bruta, HIGH hasta el intento 14 y CRITICAL desde el 15',
