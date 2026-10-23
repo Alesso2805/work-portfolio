@@ -1050,7 +1050,7 @@ const sentinelapi: CaseStudy = {
       lead: 'A middleware library that a FastAPI app installs in three lines to catch what a rate limiter alone misses — credential stuffing spread over many addresses, and stolen refresh tokens used twice — with every verdict in a private audit trail and every claim backed by a test.',
       role: 'Solo developer — from spec to deploy',
       context: 'Personal project · a Python library and its demo',
-      status: 'Deployed, with a live demo; the PyPI release comes with 1.0.0',
+      status: 'v1.0.0 on PyPI as fastapi-sentinel, with a live demo',
       problemTitle:
         'Most advice for securing an API stops at “put a rate limiter in front of it”, and a rate limiter misses the attacks that matter.',
       problemBody:
@@ -1154,7 +1154,7 @@ const sentinelapi: CaseStudy = {
       lead: 'Una librería middleware que una app FastAPI instala en tres líneas para detectar lo que un rate limiter solo no ve — credential stuffing repartido entre muchas direcciones y refresh tokens robados usados dos veces — con cada veredicto en un registro de auditoría privado y cada afirmación respaldada por un test.',
       role: 'Desarrollador único — de la especificación al despliegue',
       context: 'Proyecto personal · una librería Python y su demo',
-      status: 'Desplegada, con demo en vivo; la publicación en PyPI llega con la 1.0.0',
+      status: 'v1.0.0 en PyPI como fastapi-sentinel, con demo en vivo',
       problemTitle:
         'Casi todos los consejos para proteger una API terminan en “ponle un rate limiter delante”, y un rate limiter no ve los ataques que importan.',
       problemBody:
