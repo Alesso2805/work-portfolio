@@ -1,6 +1,6 @@
 import { act, fireEvent, render, screen, within } from '@testing-library/react';
 import { afterEach, describe, expect, it } from 'vitest';
-import { langLabels, projects } from '@/content/projects';
+import { langLabels, type Project, projects } from '@/content/projects';
 import { toRowData } from '@/lib/projects';
 import { ProjectExplorer } from './project-explorer';
 
@@ -12,11 +12,11 @@ const labels = {
   thesisTag: 'thesis · 44/44 tests',
 };
 
-function renderExplorer() {
+function renderExplorer(rows: readonly Project[] = projects) {
   return render(
     <ProjectExplorer
       heading={<h2>01 — Work</h2>}
-      projects={projects.map((p) => toRowData(p, 'en'))}
+      projects={rows.map((p) => toRowData(p, 'en'))}
       labels={labels}
     />,
   );
@@ -63,11 +63,25 @@ describe('ProjectExplorer', () => {
   });
 
   it('links the case study and leaves rows without a target unlinked', () => {
-    renderExplorer();
+    // Every real project has a target now, so one without any stands in for the rule.
+    const untargeted: Project = {
+      slug: 'untargeted',
+      number: '05',
+      name: 'Untargeted',
+      featured: false,
+      languages: ['python'],
+      languagesLabel: 'Python',
+      description: { en: '', es: '' },
+    };
+    renderExplorer([...projects, untargeted]);
     expect(screen.getByRole('link', { name: /GenAIrator/ })).toHaveAttribute(
       'href',
       '/en/projects/genairator',
     );
-    expect(screen.queryByRole('link', { name: /SentinelAPI/ })).not.toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /SentinelAPI/ })).toHaveAttribute(
+      'href',
+      '/en/projects/sentinelapi',
+    );
+    expect(screen.queryByRole('link', { name: /Untargeted/ })).not.toBeInTheDocument();
   });
 });

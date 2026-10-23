@@ -60,6 +60,7 @@ pnpm dev          # http://localhost:3000 → redirects to /en or /es
 | `/en/projects/genairator`, `/es/projects/genairator` | GenAIrator case study |
 | `/en/projects/willay`, `/es/projects/willay` | Willay case study |
 | `/en/projects/veriledger`, `/es/projects/veriledger` | VeriLedger case study |
+| `/en/projects/sentinelapi`, `/es/projects/sentinelapi` | SentinelAPI case study |
 | anything else | Styled 404 |
 
 Also generated: `sitemap.xml`, `robots.txt`, `og.png`, `favicon.ico`, `icon.png` and `apple-icon.png`.

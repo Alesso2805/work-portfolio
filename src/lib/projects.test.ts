@@ -17,11 +17,11 @@ describe('project filter', () => {
     expect(names('python')).toEqual(['Willay', 'VeriLedger', 'SentinelAPI']);
     expect(names('ts')).toEqual(['GenAIrator', 'Willay', 'VeriLedger']);
     expect(names('csharp')).toEqual(['GenAIrator']);
-    expect(names('sql')).toEqual(['GenAIrator', 'Willay', 'VeriLedger']);
+    expect(names('sql')).toEqual(['GenAIrator', 'Willay', 'VeriLedger', 'SentinelAPI']);
   });
 
   it('counts projects per filter', () => {
-    expect(countByStack(projects)).toEqual({ all: 4, python: 3, ts: 3, csharp: 1, sql: 3 });
+    expect(countByStack(projects)).toEqual({ all: 4, python: 3, ts: 3, csharp: 1, sql: 4 });
   });
 
   it('keeps every count in sync with the filtered list', () => {

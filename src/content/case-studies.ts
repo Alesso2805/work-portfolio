@@ -926,7 +926,337 @@ const veriledger: CaseStudy = {
   },
 };
 
-export const caseStudies: readonly CaseStudy[] = [genairator, willay, veriledger];
+/** The console is in English only, so each screen is the same file in both languages. */
+function sameScreen(file: string): Record<Locale, string> {
+  return { en: `/case-studies/${file}`, es: `/case-studies/${file}` };
+}
+
+const sentinelapi: CaseStudy = {
+  slug: 'sentinelapi',
+  metric: '24/24',
+  media: [
+    {
+      kind: 'image',
+      src: sameScreen('sentinelapi-console.png'),
+      alt: {
+        en: 'The attack console: three attacks, a burst, credential stuffing and a token replay, each with its button',
+        es: 'La consola de ataques: tres ataques, una ráfaga, credential stuffing y un replay de token, cada uno con su botón',
+      },
+      caption: {
+        en: {
+          title: 'Three attacks, one button each',
+          body: 'The demo runs each attack on the server, against SentinelAPI’s real detectors, from simulated addresses. Every request it makes appears with the verdict it got.',
+        },
+        es: {
+          title: 'Tres ataques, un botón cada uno',
+          body: 'La demo ejecuta cada ataque en el servidor, contra los detectores reales de SentinelAPI, desde direcciones simuladas. Cada petición aparece con el veredicto que recibió.',
+        },
+      },
+    },
+    {
+      kind: 'image',
+      src: sameScreen('sentinelapi-stuffing.png'),
+      alt: {
+        en: 'Credential stuffing: seven wrong passwords from seven addresses are rejected, and the eighth, from another address, is blocked',
+        es: 'Credential stuffing: siete contraseñas incorrectas desde siete direcciones se rechazan, y la octava, desde otra dirección, se bloquea',
+      },
+      caption: {
+        en: {
+          title: 'Credential stuffing, caught on the account',
+          body: '20 addresses try one wrong password each, so no address fails twice and a per-IP limiter sees nothing. Counting per account, the 8th failure locks it, even for its owner with the right password, for 15 minutes.',
+        },
+        es: {
+          title: 'Credential stuffing, detectado en la cuenta',
+          body: '20 direcciones prueban una contraseña incorrecta cada una, así que ninguna falla dos veces y un límite por IP no ve nada. Contando por cuenta, el 8.º fallo la bloquea, incluso para su dueño con la contraseña correcta, durante 15 minutos.',
+        },
+      },
+    },
+    {
+      kind: 'image',
+      src: sameScreen('sentinelapi-critical.png'),
+      alt: {
+        en: 'The attack goes on after the lock: attempts 9 to 14 are HIGH, and from the 15th they are CRITICAL',
+        es: 'El ataque sigue tras el bloqueo: los intentos 9 a 14 son HIGH y desde el 15.º son CRITICAL',
+      },
+      caption: {
+        en: {
+          title: 'An attack that keeps going turns CRITICAL',
+          body: 'Refused attempts still count against the locked account. From the 15th they are CRITICAL, and a webhook hears of it once, not once per address.',
+        },
+        es: {
+          title: 'Un ataque que sigue pasa a CRITICAL',
+          body: 'Los intentos rechazados siguen contando contra la cuenta bloqueada. Desde el 15.º son CRITICAL, y un webhook se entera una sola vez, no una por dirección.',
+        },
+      },
+    },
+    {
+      kind: 'image',
+      src: sameScreen('sentinelapi-burst.png'),
+      alt: {
+        en: 'The burst: requests 52 to 60 allowed, and the 61st and every one after it blocked with 429',
+        es: 'La ráfaga: las peticiones 52 a 60 se permiten, y la 61 y todas las siguientes se bloquean con 429',
+      },
+      caption: {
+        en: {
+          title: 'A limit that means what it says',
+          body: 'Seventy requests in a moment from one address, against 60 per minute: the 61st and every one after it get 429 with Retry-After. The prototype blocked only past twice the limit.',
+        },
+        es: {
+          title: 'Un límite que significa lo que dice',
+          body: 'Setenta peticiones seguidas desde una dirección, con un límite de 60 por minuto: la 61 y todas las siguientes reciben 429 con Retry-After. El prototipo solo bloqueaba pasado el doble del límite.',
+        },
+      },
+    },
+    {
+      kind: 'image',
+      src: sameScreen('sentinelapi-replay.png'),
+      alt: {
+        en: 'The replay: the owner logs in and rotates the refresh token, the stolen copy gets 403 and a forged token 401',
+        es: 'El replay: el dueño inicia sesión y rota el refresh token, la copia robada recibe 403 y un token falsificado 401',
+      },
+      caption: {
+        en: {
+          title: 'A stolen refresh token, refused',
+          body: 'The owner rotates the token; the stolen copy, replayed from another address, gets 403 as likely theft. Its signature is valid: only remembering which tokens were used catches it.',
+        },
+        es: {
+          title: 'Un refresh token robado, rechazado',
+          body: 'El dueño rota el token; la copia robada, usada desde otra dirección, recibe 403 como probable robo. Su firma es válida: solo recordar qué tokens ya se usaron lo detecta.',
+        },
+      },
+    },
+    {
+      kind: 'image',
+      src: sameScreen('sentinelapi-audit.png'),
+      alt: {
+        en: 'The live audit trail: brute-force events, HIGH up to the 14th attempt and CRITICAL from the 15th',
+        es: 'El registro de auditoría en vivo: eventos de fuerza bruta, HIGH hasta el intento 14 y CRITICAL desde el 15',
+      },
+      caption: {
+        en: {
+          title: 'Every verdict, in the audit trail',
+          body: 'Each run’s events stream in live, only to the visitor who ran it. In the database, addresses and accounts are keyed hashes, and identical events become one row with a count.',
+        },
+        es: {
+          title: 'Cada veredicto, en el registro de auditoría',
+          body: 'Los eventos de cada ejecución llegan en vivo, solo a quien la lanzó. En la base de datos, direcciones y cuentas son hashes con clave, y los eventos idénticos se agrupan en una fila con un contador.',
+        },
+      },
+    },
+  ],
+  copy: {
+    en: {
+      kicker: 'Case study — Personal project',
+      lead: 'A middleware library that a FastAPI app installs in three lines to catch what a rate limiter alone misses — credential stuffing spread over many addresses, and stolen refresh tokens used twice — with every verdict in a private audit trail and every claim backed by a test.',
+      role: 'Solo developer — from spec to deploy',
+      context: 'Personal project · a Python library and its demo',
+      status: 'Built and tested; the live demo and the PyPI release come with 1.0.0',
+      problemTitle:
+        'Most advice for securing an API stops at “put a rate limiter in front of it”, and a rate limiter misses the attacks that matter.',
+      problemBody:
+        'Credential stuffing spreads the attempts against one account over many addresses, so no address ever crosses a limit. A stolen refresh token passes a signature check. Catching them means counting failures per account as well as per address, and remembering which single-use tokens were already used.',
+      steps: [
+        {
+          title: 'Install it in three lines',
+          description:
+            'install_sentinel(app) adds the middleware and the audit trail, and the login calls a guard around its own password check.',
+        },
+        {
+          title: 'Every request is counted',
+          description:
+            'Each client, by its address through the proxies you trust, gets a fixed window. The first request over the limit gets 429 with Retry-After.',
+        },
+        {
+          title: 'Logins, on two axes',
+          description:
+            'Failures count per source and per account, and the guard asks before the password is checked, so a block holds even against the right password.',
+        },
+        {
+          title: 'Every verdict recorded',
+          description:
+            'In the log with its request id, in an audit trail where addresses and accounts are keyed hashes, and in a webhook for CRITICAL events.',
+        },
+      ],
+      architecture: [
+        {
+          layer: 'Detectors',
+          tech: 'Python 3.11–3.15 · PyJWT',
+          notes: 'Pure logic: no FastAPI, Redis or SQLAlchemy · an injected clock',
+        },
+        {
+          layer: 'Middleware',
+          tech: 'Starlette · pure ASGI',
+          notes: 'One installer · never reads the body · streaming passes through',
+        },
+        {
+          layer: 'Counters',
+          tech: 'Redis 7 · in memory',
+          notes: 'One contract suite for both: fixed windows started by the first hit',
+        },
+        {
+          layer: 'Audit trail',
+          tech: 'PostgreSQL 16 · SQLAlchemy 2 async · Alembic',
+          notes:
+            'Keyed hashes · identical events folded · written off the request path · append-only for the app',
+        },
+        {
+          layer: 'Demo',
+          tech: 'FastAPI · attack console',
+          notes: 'A sandbox per run · server-sent events · strict CSP',
+        },
+        {
+          layer: 'Deploy',
+          tech: 'Docker Compose · Caddy',
+          notes: 'Non-root image · migrations before the API starts · HTTPS',
+        },
+        {
+          layer: 'CI',
+          tech: 'GitHub Actions',
+          notes:
+            'Ruff · Mypy strict · import-linter · tests on Redis and PostgreSQL · axe-core · the wheel with each extra',
+        },
+      ],
+      decisions: [
+        {
+          title: 'A block that holds, checked before the password',
+          body: 'The audit found that a blocked attacker who guessed right still got in. Now the guard asks before the password is verified, answers 429 with Retry-After, and says the same whether the account exists or not.',
+        },
+        {
+          title: 'The client is its address, not its headers',
+          body: 'A new User-Agent reset the count, and behind a proxy every visitor shared one bucket. Now limits count on the address, X-Forwarded-For is believed only from the proxies you trust, and IPv6 counts by /64.',
+        },
+        {
+          title: 'An audit trail that cannot become the problem',
+          body: 'It stored raw addresses and usernames, and wrote a row per request inside the request. Now they are keyed hashes, identical events become one row with a count, a background task writes them, and a database outage never fails a request.',
+        },
+        {
+          title: 'Every claim in the README is a test',
+          body: 'Each guarantee names the test that checks it, and a test fails if that name stops existing. Checking the README against the code found that stuffing never reached CRITICAL, since refused attempts were not counted; it was fixed with its own test.',
+        },
+      ],
+      results: {
+        metricLabel:
+          'problems an audit of the prototype found — a way around every detector, an audit trail that leaked the data it protected, an image that did not start — all fixed',
+        cards: [
+          {
+            title: '213 tests',
+            body: 'Unit and architecture tests, one contract suite on both the in-memory backend and Redis, integration on PostgreSQL, and the attack console in a real browser',
+          },
+          {
+            title: '1.42 ms at p95',
+            body: 'Added per request with Redis on the same machine, under a 2 ms target; 0.04 ms with the in-memory backend',
+          },
+        ],
+      },
+    },
+    es: {
+      kicker: 'Caso de estudio — Proyecto personal',
+      lead: 'Una librería middleware que una app FastAPI instala en tres líneas para detectar lo que un rate limiter solo no ve — credential stuffing repartido entre muchas direcciones y refresh tokens robados usados dos veces — con cada veredicto en un registro de auditoría privado y cada afirmación respaldada por un test.',
+      role: 'Desarrollador único — de la especificación al despliegue',
+      context: 'Proyecto personal · una librería Python y su demo',
+      status: 'Construida y probada; la demo en vivo y la publicación en PyPI llegan con la 1.0.0',
+      problemTitle:
+        'Casi todos los consejos para proteger una API terminan en “ponle un rate limiter delante”, y un rate limiter no ve los ataques que importan.',
+      problemBody:
+        'El credential stuffing reparte los intentos contra una cuenta entre muchas direcciones, así que ninguna supera un límite. Un refresh token robado pasa la verificación de firma. Detectarlos exige contar los fallos por cuenta además de por dirección, y recordar qué tokens de un solo uso ya se usaron.',
+      steps: [
+        {
+          title: 'Se instala en tres líneas',
+          description:
+            'install_sentinel(app) añade el middleware y el registro de auditoría, y el login llama a una guarda alrededor de su propia verificación de contraseña.',
+        },
+        {
+          title: 'Cada petición se cuenta',
+          description:
+            'Cada cliente, por su dirección a través de los proxies de confianza, tiene una ventana fija. La primera petición que pasa el límite recibe 429 con Retry-After.',
+        },
+        {
+          title: 'Logins, en dos ejes',
+          description:
+            'Los fallos se cuentan por origen y por cuenta, y la guarda pregunta antes de verificar la contraseña, así que un bloqueo se mantiene incluso con la contraseña correcta.',
+        },
+        {
+          title: 'Cada veredicto, registrado',
+          description:
+            'En el log con su id de petición, en un registro de auditoría donde direcciones y cuentas son hashes con clave, y en un webhook para los eventos CRITICAL.',
+        },
+      ],
+      architecture: [
+        {
+          layer: 'Detectores',
+          tech: 'Python 3.11–3.15 · PyJWT',
+          notes: 'Lógica pura: sin FastAPI, Redis ni SQLAlchemy · un reloj inyectado',
+        },
+        {
+          layer: 'Middleware',
+          tech: 'Starlette · ASGI puro',
+          notes: 'Un solo instalador · nunca lee el body · el streaming pasa intacto',
+        },
+        {
+          layer: 'Contadores',
+          tech: 'Redis 7 · en memoria',
+          notes: 'Una suite de contrato para ambos: ventanas fijas que abre el primer hit',
+        },
+        {
+          layer: 'Auditoría',
+          tech: 'PostgreSQL 16 · SQLAlchemy 2 async · Alembic',
+          notes:
+            'Hashes con clave · eventos idénticos agrupados · escrita fuera de la petición · solo inserción para la app',
+        },
+        {
+          layer: 'Demo',
+          tech: 'FastAPI · consola de ataques',
+          notes: 'Un sandbox por ejecución · server-sent events · CSP estricta',
+        },
+        {
+          layer: 'Despliegue',
+          tech: 'Docker Compose · Caddy',
+          notes: 'Imagen sin root · migraciones antes de que arranque la API · HTTPS',
+        },
+        {
+          layer: 'CI',
+          tech: 'GitHub Actions',
+          notes:
+            'Ruff · Mypy strict · import-linter · tests sobre Redis y PostgreSQL · axe-core · el wheel con cada extra',
+        },
+      ],
+      decisions: [
+        {
+          title: 'Un bloqueo que se mantiene, comprobado antes de la contraseña',
+          body: 'La auditoría encontró que un atacante bloqueado que acertaba la contraseña igual entraba. Ahora la guarda pregunta antes de verificar la contraseña, responde 429 con Retry-After y dice lo mismo exista o no la cuenta.',
+        },
+        {
+          title: 'El cliente es su dirección, no sus cabeceras',
+          body: 'Un User-Agent nuevo reiniciaba la cuenta, y detrás de un proxy todos los visitantes compartían un mismo contador. Ahora los límites cuentan por dirección, X-Forwarded-For solo se cree desde los proxies de confianza, e IPv6 cuenta por /64.',
+        },
+        {
+          title: 'Un registro de auditoría que no se vuelve el problema',
+          body: 'Guardaba direcciones y usuarios en claro, y escribía una fila por petición dentro de la petición. Ahora son hashes con clave, los eventos idénticos son una fila con un contador, una tarea en segundo plano los escribe y una caída de la base de datos nunca hace fallar una petición.',
+        },
+        {
+          title: 'Cada afirmación del README es un test',
+          body: 'Cada garantía nombra el test que la comprueba, y un test falla si ese nombre deja de existir. Contrastar el README con el código reveló que el stuffing nunca llegaba a CRITICAL, porque los intentos rechazados no se contaban; se corrigió con su propio test.',
+        },
+      ],
+      results: {
+        metricLabel:
+          'problemas que una auditoría encontró en el prototipo — una forma de evadir cada detector, un registro de auditoría que filtraba los datos que debía proteger, una imagen que no arrancaba — todos resueltos',
+        cards: [
+          {
+            title: '213 tests',
+            body: 'Unitarios y de arquitectura, una suite de contrato sobre el backend en memoria y sobre Redis, integración sobre PostgreSQL y la consola de ataques en un navegador real',
+          },
+          {
+            title: '1,42 ms en el p95',
+            body: 'Añadidos por petición con Redis en la misma máquina, bajo un objetivo de 2 ms; 0,04 ms con el backend en memoria',
+          },
+        ],
+      },
+    },
+  },
+};
+
+export const caseStudies: readonly CaseStudy[] = [genairator, willay, veriledger, sentinelapi];
 
 export function getCaseStudy(slug: string): CaseStudy | undefined {
   return caseStudies.find((study) => study.slug === slug);

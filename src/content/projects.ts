@@ -82,12 +82,14 @@ export const projects: readonly Project[] = [
     number: '04',
     name: 'SentinelAPI',
     featured: false,
-    languages: ['python'],
-    languagesLabel: 'Python',
+    languages: ['python', 'sql'],
+    languagesLabel: 'Python · SQL',
     description: {
-      en: 'Adaptive threat-detection middleware for FastAPI — rate limiting, credential stuffing, JWT replay.',
-      es: 'Middleware de detección adaptativa de amenazas para FastAPI — rate limiting, credential stuffing, JWT replay.',
+      en: 'Threat-detection middleware for FastAPI — rate limiting, credential stuffing caught per account, single-use refresh tokens, and a private audit trail. Redis, PostgreSQL.',
+      es: 'Middleware de detección de amenazas para FastAPI — rate limiting, credential stuffing detectado por cuenta, refresh tokens de un solo uso y un registro de auditoría privado. Redis, PostgreSQL.',
     },
+    repoUrl: 'https://github.com/Alesso2805/sentinelapi',
+    caseStudySlug: 'sentinelapi',
   },
 ];
 
