@@ -15,15 +15,15 @@ const names = (filter: StackFilter) => filterProjects(projects, filter).map((p) 
 
 describe('project filter', () => {
   it('returns the right projects for each filter, in home order', () => {
-    expect(names('all')).toEqual(['GenAIrator', 'Willay', 'VeriLedger', 'SentinelAPI']);
-    expect(names('python')).toEqual(['Willay', 'VeriLedger', 'SentinelAPI']);
-    expect(names('ts')).toEqual(['GenAIrator', 'Willay', 'VeriLedger']);
+    expect(names('all')).toEqual(['GenAIrator', 'Willay', 'VeriLedger', 'SentinelAPI', 'Concilia']);
+    expect(names('python')).toEqual(['Willay', 'VeriLedger', 'SentinelAPI', 'Concilia']);
+    expect(names('ts')).toEqual(['GenAIrator', 'Willay', 'VeriLedger', 'Concilia']);
     expect(names('csharp')).toEqual(['GenAIrator']);
-    expect(names('sql')).toEqual(['GenAIrator', 'Willay', 'VeriLedger', 'SentinelAPI']);
+    expect(names('sql')).toEqual(['GenAIrator', 'Willay', 'VeriLedger', 'SentinelAPI', 'Concilia']);
   });
 
   it('counts projects per filter', () => {
-    expect(countByStack(projects)).toEqual({ all: 4, python: 3, ts: 3, csharp: 1, sql: 4 });
+    expect(countByStack(projects)).toEqual({ all: 5, python: 4, ts: 4, csharp: 1, sql: 5 });
   });
 
   it('keeps every count in sync with the filtered list', () => {

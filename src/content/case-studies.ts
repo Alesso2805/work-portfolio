@@ -1269,7 +1269,398 @@ const sentinelapi: CaseStudy = {
   },
 };
 
-export const caseStudies: readonly CaseStudy[] = [genairator, willay, veriledger, sentinelapi];
+const concilia: CaseStudy = {
+  slug: 'concilia',
+  metric: '318/336',
+  media: [
+    {
+      kind: 'image',
+      src: {
+        en: '/case-studies/concilia-inbox.png',
+        es: '/case-studies/concilia-inbox.png',
+      },
+      alt: {
+        en: 'The reconciliation inbox: 103 engine proposals, each with its rule, score and difference',
+        es: 'La bandeja de conciliación: 103 propuestas del motor, cada una con su regla, puntaje y diferencia',
+      },
+      caption: {
+        en: {
+          title: 'The engine’s proposals, ready to review',
+          body: 'For one bank account and one month, the engine proposed 103 matches. Each row shows the credit, the receivables it pays, the rule, a score and the difference. The interface is in Spanish, for finance teams in Peru.',
+        },
+        es: {
+          title: 'Las propuestas del motor, listas para revisar',
+          body: 'Para una cuenta bancaria y un mes, el motor propuso 103 coincidencias. Cada fila muestra el abono, los cobros que paga, la regla, un puntaje y la diferencia.',
+        },
+      },
+    },
+    {
+      kind: 'image',
+      src: {
+        en: '/case-studies/concilia-detail.png',
+        es: '/case-studies/concilia-detail.png',
+      },
+      alt: {
+        en: 'Detail of a proposal: the credit is S/ 598.00 short of the invoice, explained as a 10 % detraction',
+        es: 'Detalle de una propuesta: al abono le faltan S/ 598.00 respecto de la factura, explicado como una detracción del 10 %',
+      },
+      caption: {
+        en: {
+          title: 'Every proposal explains itself',
+          body: 'The description mentions F001-218, and the credit is S/ 598.00 short of that invoice: exactly a 10 % detraction, a Peruvian tax withholding. The engine says so and suggests the reason; the analyst still decides.',
+        },
+        es: {
+          title: 'Cada propuesta se explica',
+          body: 'La descripción menciona F001-218, y al abono le faltan S/ 598.00 respecto de esa factura: justo una detracción del 10 %. El motor lo dice y sugiere el motivo; el analista sigue decidiendo.',
+        },
+      },
+    },
+    {
+      kind: 'image',
+      src: {
+        en: '/case-studies/concilia-manual.png',
+        es: '/case-studies/concilia-manual.png',
+      },
+      alt: {
+        en: 'Manual reconciliation: a S/ 914.20 credit applied to an invoice as a partial payment, with no difference',
+        es: 'Conciliación manual: un abono de S/ 914.20 aplicado a una factura como pago parcial, sin diferencia',
+      },
+      caption: {
+        en: {
+          title: 'By hand, with a partial payment',
+          body: 'When no rule fits, the analyst picks the credits and receivables and sets how much applies to each, with the totals and the difference updated live. Applying less than the balance leaves the receivable open for the rest, marked partial.',
+        },
+        es: {
+          title: 'A mano, con un pago parcial',
+          body: 'Cuando ninguna regla aplica, el analista elige los abonos y los cobros e indica cuánto se aplica a cada uno, con los totales y la diferencia al día. Si aplica menos que el saldo, el cobro queda abierto por el resto, marcado como parcial.',
+        },
+      },
+    },
+    {
+      kind: 'image',
+      src: {
+        en: '/case-studies/concilia-import.png',
+        es: '/case-studies/concilia-import.png',
+      },
+      alt: {
+        en: 'Import preview of a statement: 165 valid rows and 3 already imported',
+        es: 'Vista previa de un extracto: 165 filas válidas y 3 ya importadas',
+      },
+      caption: {
+        en: {
+          title: 'Every import goes through a preview',
+          body: 'December’s statement starts with three movements from November, as bank exports often do. The preview flags them as already imported, and confirming saves only the valid rows. Files are read without evaluating formulas.',
+        },
+        es: {
+          title: 'Toda importación pasa por una vista previa',
+          body: 'El extracto de diciembre empieza con tres movimientos de noviembre, como suele pasar al exportar del banco. La vista previa los marca como ya importados, y al confirmar se guardan solo las filas válidas. Los archivos se leen sin evaluar fórmulas.',
+        },
+      },
+    },
+    {
+      kind: 'image',
+      src: {
+        en: '/case-studies/concilia-review.png',
+        es: '/case-studies/concilia-review.png',
+      },
+      alt: {
+        en: 'The reviewer’s view of 69 confirmed matches, with approval in one step for those scored 100',
+        es: 'La vista de la revisora con 69 coincidencias confirmadas y la aprobación en un paso de las de puntaje 100',
+      },
+      caption: {
+        en: {
+          title: 'Four eyes',
+          body: 'The reviewer approves or rejects what the analyst confirmed. Matches scored 100 can be approved in one step, but anything the reviewer created or confirmed is left for someone else, a rule the database checks again with a trigger.',
+        },
+        es: {
+          title: 'Cuatro ojos',
+          body: 'La revisora aprueba o rechaza lo que el analista confirmó. Las de puntaje 100 se aprueban en un paso, pero lo que ella misma creó o confirmó queda para otra persona, una regla que la base de datos vuelve a comprobar con un trigger.',
+        },
+      },
+    },
+    {
+      kind: 'image',
+      src: {
+        en: '/case-studies/concilia-panel.png',
+        es: '/case-studies/concilia-panel.png',
+      },
+      alt: {
+        en: 'The panel: 49.3 % reconciled by amount, with charts of credits by status and pending credits by age',
+        es: 'El panel: 49,3 % conciliado por monto, con gráficos de abonos por estado y pendientes por antigüedad',
+      },
+      caption: {
+        en: {
+          title: 'The month at a glance',
+          body: 'The share reconciled by amount and by count, pending credits by age and differences by reason, where reconciled means approved. Each chart can be read as a table, and the month exports to Excel.',
+        },
+        es: {
+          title: 'El mes de un vistazo',
+          body: 'El porcentaje conciliado por monto y por cantidad, los pendientes por antigüedad y las diferencias por motivo, donde conciliado quiere decir aprobado. Cada gráfico se puede leer como tabla, y el mes se exporta a Excel.',
+        },
+      },
+    },
+    {
+      kind: 'image',
+      src: {
+        en: '/case-studies/concilia-audit.png',
+        es: '/case-studies/concilia-audit.png',
+      },
+      alt: {
+        en: 'The audit log: the analyst confirms and the reviewer approves, row after row, and then the month is closed',
+        es: 'La auditoría: el analista confirma y la revisora aprueba, fila tras fila, y luego se cierra el mes',
+      },
+      caption: {
+        en: {
+          title: 'A history no one can edit',
+          body: 'Who imported, confirmed, approved, closed or reverted, and when. The analyst confirms and the reviewer approves, row after row. No role the application uses can update or delete these rows.',
+        },
+        es: {
+          title: 'Un historial que nadie puede editar',
+          body: 'Quién importó, confirmó, aprobó, cerró o revirtió, y cuándo. El analista confirma y la revisora aprueba, fila tras fila. Ningún rol que use la aplicación puede modificar ni borrar estas filas.',
+        },
+      },
+    },
+    {
+      kind: 'image',
+      src: {
+        en: '/case-studies/concilia-dark.png',
+        es: '/case-studies/concilia-dark.png',
+      },
+      alt: {
+        en: 'The inbox in dark mode, showing the approved matches',
+        es: 'La bandeja en modo oscuro, con las coincidencias aprobadas',
+      },
+      caption: {
+        en: {
+          title: 'Light and dark',
+          body: 'A ledger look built on Angular Material 3: the figures in a monospaced font, differences in amber. It follows the system theme or a manual choice, and axe checks every screen in both.',
+        },
+        es: {
+          title: 'Claro y oscuro',
+          body: 'Un estilo de libro contable sobre Angular Material 3: las cifras en fuente monoespaciada y las diferencias en ámbar. Sigue el tema del sistema o una elección manual, y axe revisa cada pantalla en ambos.',
+        },
+      },
+    },
+  ],
+  copy: {
+    en: {
+      kicker: 'Case study — Personal project',
+      lead: 'A bank reconciliation backoffice. It matches a company’s bank statement against the receivables it expects to collect, proposes each match with a rule, a score and an explanation, and needs two different people to approve it — with every decision in a history no one can edit, and an AI that suggests but never decides.',
+      role: 'Solo developer — from spec to deploy',
+      context: 'Personal project · a full-stack backoffice',
+      status: 'Live demo, deployed automatically on every merge',
+      problemTitle:
+        'In most small and mid-size companies, bank reconciliation is a spreadsheet: slow, kept in one person’s head, with no record of who decided what.',
+      problemBody:
+        'Each credit is searched for by hand in the list of invoices. One credit pays several invoices, or one invoice arrives in two credits; amounts are off by fees, detractions or rounding; references are written any way; and the same statement gets imported twice.',
+      steps: [
+        {
+          title: 'Import through a preview',
+          description:
+            'Statements and receivables arrive as CSV or XLSX. The preview flags errors, rows already imported and closed months before anything is saved.',
+        },
+        {
+          title: 'The engine proposes',
+          description:
+            'Six rules, from an exact reference to a unique amount and date, each with a score and an explanation. The same input always gives the same proposals.',
+        },
+        {
+          title: 'Two people decide',
+          description:
+            'An analyst confirms or discards, and a different reviewer approves or rejects. Nobody approves what they created or confirmed.',
+        },
+        {
+          title: 'The month closes',
+          description:
+            'With nothing pending, the reviewer closes the month and nothing in it changes until it is reopened with a reason. The panel and an Excel export report it.',
+        },
+      ],
+      architecture: [
+        {
+          layer: 'Web',
+          tech: 'Angular 22 · Material 3 · ECharts',
+          notes: 'Zoneless, signals · a client generated from OpenAPI · light and dark',
+        },
+        {
+          layer: 'API',
+          tech: 'FastAPI · Pydantic v2',
+          notes: 'Cookie sessions · signed CSRF · idempotent POSTs on client-generated ids',
+        },
+        {
+          layer: 'Worker',
+          tech: 'Python 3.14 · the same code',
+          notes: 'Job queue in PostgreSQL · imports, engine runs, exports · safe to rerun',
+        },
+        {
+          layer: 'Data',
+          tech: 'PostgreSQL 17 · SQLAlchemy 2 async · Alembic',
+          notes: 'Row-level security per organization · insert-only history · triggers',
+        },
+        {
+          layer: 'AI',
+          tech: 'OpenAI SDK behind a port',
+          notes: 'Validated structured output · amounts recomputed · off in the public demo',
+        },
+        {
+          layer: 'Deploy',
+          tech: 'Docker Compose · Caddy · Google Cloud',
+          notes: 'Images built by CI and pulled on deploy · HTTPS · CSP and security headers',
+        },
+        {
+          layer: 'CI',
+          tech: 'GitHub Actions',
+          notes:
+            'Ruff · Mypy strict · import-linter · Pytest with Testcontainers and Hypothesis · Vitest · Playwright + axe',
+        },
+      ],
+      decisions: [
+        {
+          title: 'An engine that proposes only when it is sure',
+          body: 'The engine is a pure function, with no database and no AI. The rules without a reference propose only when exactly one combination fits, and never repeat one a person rejected. The ambiguous cases are left to people.',
+        },
+        {
+          title: 'Isolation the database enforces',
+          body: 'Every organization’s tables have row-level security with FORCE, and the roles the app uses own nothing. A test compares every table, view and grant with a declarative file, and every endpoint is tested with two organizations.',
+        },
+        {
+          title: 'A history no one can edit',
+          body: 'Matches, decisions and month events are insert-only for every role the app uses, and a state is the last event in order. Four eyes and closed months are checked in the domain and again by triggers.',
+        },
+        {
+          title: 'An AI that suggests and never decides',
+          body: 'Only the fields the spec lists are sent. The answer is validated against a schema, the server recomputes every amount, and a person accepts or rejects each suggestion. With the AI turned off, everything else works the same.',
+        },
+      ],
+      results: {
+        metricLabel:
+          'credits in the demo data matched to the receivables they pay (94.6 %), with no wrong proposal — the other 18 are ambiguous or partial payments, left to people on purpose',
+        cards: [
+          {
+            title: '963 tests',
+            body: '742 in the backend — unit, Hypothesis properties, integration on real PostgreSQL and architecture rules — plus 179 Angular unit tests and 42 Playwright end-to-end tests with axe',
+          },
+          {
+            title: 'Under 5 s for 1,000 × 1,000',
+            body: 'The engine on 1,000 credits and 1,000 receivables, while the inbox stays under 500 ms at p95 with 10,000 movements; both are checked in CI',
+          },
+        ],
+      },
+    },
+    es: {
+      kicker: 'Caso de estudio — Proyecto personal',
+      lead: 'Un backoffice de conciliación bancaria. Cruza el extracto bancario de una empresa con los cobros que espera recibir, propone cada coincidencia con una regla, un puntaje y una explicación, y exige que dos personas distintas la aprueben — con cada decisión en un historial que nadie puede editar y una IA que sugiere pero nunca decide.',
+      role: 'Desarrollador único — de la especificación al despliegue',
+      context: 'Proyecto personal · un backoffice full stack',
+      status: 'Demo en vivo, desplegada automáticamente en cada merge',
+      problemTitle:
+        'En la mayoría de pymes y empresas medianas, la conciliación bancaria es una hoja de cálculo: lenta, en la cabeza de una sola persona y sin registro de quién decidió qué.',
+      problemBody:
+        'Cada abono se busca a mano en la lista de facturas. Un abono paga varias facturas, o una factura llega en dos abonos; los montos no cuadran por comisiones, detracciones o redondeos; las referencias se escriben de cualquier forma; y el mismo extracto se importa dos veces.',
+      steps: [
+        {
+          title: 'Se importa con vista previa',
+          description:
+            'Los extractos y los cobros llegan en CSV o XLSX. La vista previa marca los errores, las filas ya importadas y los meses cerrados antes de guardar nada.',
+        },
+        {
+          title: 'El motor propone',
+          description:
+            'Seis reglas, desde una referencia exacta hasta un monto y una fecha únicos, cada una con un puntaje y una explicación. La misma entrada siempre da las mismas propuestas.',
+        },
+        {
+          title: 'Deciden dos personas',
+          description:
+            'Un analista confirma o descarta, y un revisor distinto aprueba o rechaza. Nadie aprueba lo que creó o confirmó.',
+        },
+        {
+          title: 'El mes se cierra',
+          description:
+            'Sin nada pendiente, el revisor cierra el mes y nada en él cambia hasta que se reabre con un motivo. El panel y una exportación a Excel lo reportan.',
+        },
+      ],
+      architecture: [
+        {
+          layer: 'Web',
+          tech: 'Angular 22 · Material 3 · ECharts',
+          notes: 'Sin zone.js, con signals · un cliente generado desde OpenAPI · claro y oscuro',
+        },
+        {
+          layer: 'API',
+          tech: 'FastAPI · Pydantic v2',
+          notes: 'Sesiones por cookie · CSRF firmado · POST idempotentes con ids del cliente',
+        },
+        {
+          layer: 'Worker',
+          tech: 'Python 3.14 · el mismo código',
+          notes:
+            'Cola de trabajos en PostgreSQL · importaciones, corridas del motor, exportaciones · se puede reejecutar',
+        },
+        {
+          layer: 'Datos',
+          tech: 'PostgreSQL 17 · SQLAlchemy 2 async · Alembic',
+          notes: 'Row-level security por organización · historial de solo inserción · triggers',
+        },
+        {
+          layer: 'IA',
+          tech: 'SDK de OpenAI detrás de un puerto',
+          notes: 'Salida estructurada validada · montos recalculados · apagada en la demo pública',
+        },
+        {
+          layer: 'Despliegue',
+          tech: 'Docker Compose · Caddy · Google Cloud',
+          notes:
+            'Imágenes construidas en CI y descargadas al desplegar · HTTPS · CSP y cabeceras de seguridad',
+        },
+        {
+          layer: 'CI',
+          tech: 'GitHub Actions',
+          notes:
+            'Ruff · Mypy strict · import-linter · Pytest con Testcontainers e Hypothesis · Vitest · Playwright + axe',
+        },
+      ],
+      decisions: [
+        {
+          title: 'Un motor que propone solo cuando está seguro',
+          body: 'El motor es una función pura, sin base de datos ni IA. Las reglas sin referencia proponen solo cuando encaja exactamente una combinación, y nunca repiten una que una persona rechazó. Los casos ambiguos quedan para las personas.',
+        },
+        {
+          title: 'Aislamiento que impone la base de datos',
+          body: 'Las tablas de cada organización tienen row-level security con FORCE, y los roles que usa la app no son dueños de nada. Un test compara cada tabla, vista y permiso con un archivo declarativo, y cada endpoint se prueba con dos organizaciones.',
+        },
+        {
+          title: 'Un historial que nadie puede editar',
+          body: 'Las coincidencias, las decisiones y los eventos del mes son de solo inserción para todos los roles que usa la app, y un estado es el último evento en orden. Los cuatro ojos y los meses cerrados se comprueban en el dominio y otra vez con triggers.',
+        },
+        {
+          title: 'Una IA que sugiere y nunca decide',
+          body: 'Solo se envían los campos que lista la especificación. La respuesta se valida contra un esquema, el servidor recalcula cada monto y una persona acepta o rechaza cada sugerencia. Con la IA apagada, todo lo demás funciona igual.',
+        },
+      ],
+      results: {
+        metricLabel:
+          'abonos de los datos de la demo conciliados con los cobros que pagan (94,6 %), sin ninguna propuesta incorrecta — los otros 18 son ambiguos o pagos parciales, que se dejan a una persona a propósito',
+        cards: [
+          {
+            title: '963 tests',
+            body: '742 en el backend — unitarios, propiedades con Hypothesis, integración sobre PostgreSQL real y reglas de arquitectura — más 179 tests unitarios de Angular y 42 end-to-end con Playwright y axe',
+          },
+          {
+            title: 'Menos de 5 s para 1000 × 1000',
+            body: 'El motor con 1000 abonos y 1000 cobros, mientras la bandeja responde en menos de 500 ms en el p95 con 10 000 movimientos; ambos se comprueban en CI',
+          },
+        ],
+      },
+    },
+  },
+};
+
+export const caseStudies: readonly CaseStudy[] = [
+  genairator,
+  willay,
+  veriledger,
+  sentinelapi,
+  concilia,
+];
 
 export function getCaseStudy(slug: string): CaseStudy | undefined {
   return caseStudies.find((study) => study.slug === slug);
