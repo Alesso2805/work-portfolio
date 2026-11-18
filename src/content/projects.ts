@@ -128,6 +128,28 @@ export const projects: readonly Project[] = [
     demoUrl: 'https://sentinelaapi.duckdns.org',
     caseStudySlug: 'sentinelapi',
   },
+  {
+    slug: 'concilia',
+    number: '05',
+    name: 'Concilia',
+    featured: false,
+    languages: ['python', 'ts', 'sql'],
+    languagesLabel: 'Python · TypeScript · SQL',
+    description: {
+      en: 'A bank reconciliation backoffice — a deterministic matching engine, four-eyes approval, a history no one can edit and an AI that suggests but never decides. FastAPI, PostgreSQL with row-level security, Angular.',
+      es: 'Un backoffice de conciliación bancaria — un motor de conciliación determinista, aprobación de cuatro ojos, un historial que nadie puede editar y una IA que sugiere pero nunca decide. FastAPI, PostgreSQL con row-level security, Angular.',
+    },
+    highlight: {
+      value: '318/336',
+      label: {
+        en: 'demo credits matched to the right receivables, with no wrong proposal',
+        es: 'abonos de la demo conciliados con los cobros correctos, sin propuestas incorrectas',
+      },
+    },
+    repoUrl: 'https://github.com/Alesso2805/concilia',
+    demoUrl: 'https://concilia-demo.duckdns.org/demo',
+    caseStudySlug: 'concilia',
+  },
 ];
 
 /** Line under the filter: general practices for "All", tools for each language. */

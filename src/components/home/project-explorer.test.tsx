@@ -32,8 +32,8 @@ describe('ProjectExplorer', () => {
 
   it('shows every project and the practices line by default', () => {
     renderExplorer();
-    expect(rowNames()).toHaveLength(4);
-    expect(screen.getByRole('button', { name: 'All 4' })).toHaveAttribute('aria-pressed', 'true');
+    expect(rowNames()).toHaveLength(5);
+    expect(screen.getByRole('button', { name: 'All 5' })).toHaveAttribute('aria-pressed', 'true');
     expect(screen.getByText(/^Practices — Clean Architecture/)).toBeInTheDocument();
   });
 
@@ -44,19 +44,19 @@ describe('ProjectExplorer', () => {
     expect(rowNames()).toHaveLength(1);
     expect(rowNames()[0]).toContain('GenAIrator');
     expect(screen.getByRole('button', { name: 'C# 1' })).toHaveAttribute('aria-pressed', 'true');
-    expect(screen.getByRole('button', { name: 'All 4' })).toHaveAttribute('aria-pressed', 'false');
+    expect(screen.getByRole('button', { name: 'All 5' })).toHaveAttribute('aria-pressed', 'false');
     expect(screen.getByText(/^Tools · C# — ASP\.NET Core/)).toBeInTheDocument();
     expect(window.location.search).toBe('?stack=csharp');
 
-    await act(async () => fireEvent.click(screen.getByRole('button', { name: 'All 4' })));
+    await act(async () => fireEvent.click(screen.getByRole('button', { name: 'All 5' })));
     expect(window.location.search).toBe('');
   });
 
   it('starts from ?stack= in the URL', () => {
     window.history.replaceState(null, '', '/en?stack=python');
     renderExplorer();
-    expect(rowNames()).toHaveLength(3);
-    expect(screen.getByRole('button', { name: 'Python 3' })).toHaveAttribute(
+    expect(rowNames()).toHaveLength(4);
+    expect(screen.getByRole('button', { name: 'Python 4' })).toHaveAttribute(
       'aria-pressed',
       'true',
     );
@@ -66,7 +66,7 @@ describe('ProjectExplorer', () => {
     // Every real project has a target now, so one without any stands in for the rule.
     const untargeted: Project = {
       slug: 'untargeted',
-      number: '05',
+      number: '06',
       name: 'Untargeted',
       featured: false,
       languages: ['python'],
@@ -81,6 +81,10 @@ describe('ProjectExplorer', () => {
     expect(screen.getByRole('link', { name: /SentinelAPI/ })).toHaveAttribute(
       'href',
       '/en/projects/sentinelapi',
+    );
+    expect(screen.getByRole('link', { name: /Concilia/ })).toHaveAttribute(
+      'href',
+      '/en/projects/concilia',
     );
     expect(screen.queryByRole('link', { name: /Untargeted/ })).not.toBeInTheDocument();
   });
